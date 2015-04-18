@@ -20,16 +20,21 @@ function colorReplaceStuff() {
 	var context = canvas.getContext('2d');
 	var img = document.getElementById('someImageID');
 
-	var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
-	//console.log("the image is at should be (50,30): ("+imageX+", "+imageY+")");
-	//console.log("width="+img.width+" height="+img.height);
-
+	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
 	context.drawImage(img, 0, 0);
+	var image = context.getImageData(0, 0, img.width, img.height);
 
-	var image = context.getImageData(imageX, imageY, img.width, img.height);
-	MARGIN = 10;
+	/*
+	var colorToReplace = localStorage.getItem("gColorIn");
+	var replacementColor = localStorage.getItem("gColorOut");
+	G_COLOR_IN_MARGIN = localStorage.getItem("tolIn"); //100 to 200
+	G_COLOR_OUT_MARGIN = localStorage.getItem("tolOut"); //100 to 200
+	*/
+	var colorToReplace = "#BE2A3A";
+	var replacementColor = 	"#6f47e1";
+	G_COLOR_IN_MARGIN = 150;
+	G_COLOR_OUT_MARGIN = 150;
 
-	var colorToReplace = "#AD202E", replacementColor = "#000000"; //light blue with black
 	var toReplaceRGB = hexToRGB(colorToReplace);
 	var replacementRGB = hexToRGB(replacementColor);
 
@@ -51,20 +56,26 @@ function colorReplaceStuff() {
 			image.data[i+1] = replacementRGB.g;
 			image.data[i+2] = replacementRGB.b;
 		}*/
-		if (colorWithinRange(150, image.data[i], image.data[i+1], image.data[i+2], image.data[i+3], toReplaceRGB)) {
-			image.data[i] = replacementRGB.r;
-			image.data[i+1] = replacementRGB.g;
-			image.data[i+2] = replacementRGB.b;
+		if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
+			image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
+			image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
+			image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
 		}
 		//i+3 is alpha channel for opacity
 	}
 
 	$("#someImageID").remove();
-	context.putImageData(image, imageX, imageY);
+	context.putImageData(image, 0, 0);
 	console.log("image replacement success");
 }
 
- //currently unused, though should? be more accurate since RGB is 3D space
+function magnitude(data, i, toReplaceRGB) {
+	var r = data[i] - toReplaceRGB.r;
+	var g = data[i+1] - toReplaceRGB.g;
+	var b = data[i+2] - toReplaceRGB.b;
+	return Math.sqrt(r*r+g*g+b*b);
+}
+
 function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	var distanceBetween = Math.sqrt(Math.pow(imageR-toReplace.r,2)+Math.pow(imageG-toReplace.g,2)+Math.pow(imageB-toReplace.b,2));
 	return distanceBetween<=varMargin;
@@ -78,11 +89,12 @@ function createCanvas() {
     canvas.height = img.height();
     canvas.style.width = canvas.width + "px";
     canvas.style.height = canvas.height + "px";
-    console.log("top "+img.offset().top+" left "+img.offset().left+" right "+img.offset().right+" bottom "+img.offset().bottom);
     canvas.style.top = (img.offset().top ? img.offset().top : 0);
     canvas.style.left = (img.offset().left ? img.offset().left : 0);
     canvas.style.right = (img.offset().right ? img.offset().right : 0);
     canvas.style.bottom = (img.offset().bottom ? img.offset().bottom : 0);
+
+    //console.log("top "+img.offset().top+" left "+img.offset().left+" right "+img.offset().right+" bottom "+img.offset().bottom);
 
     $("#someImageID").after(canvas);
 
@@ -90,6 +102,7 @@ function createCanvas() {
 }
 
 //thanks @SO
+/*
 function getAbsPosition (el){
     var el2 = el;
     var curtop = 0;
@@ -112,5 +125,5 @@ function getAbsPosition (el){
         curleft += el.x;
     }
     return [curtop, curleft];
-}
+}*/
 
