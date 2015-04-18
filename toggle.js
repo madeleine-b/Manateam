@@ -1,14 +1,20 @@
 function init() {
-  $("#cb").on("click", handleClick($("#cb"))); //checkbox 
   /*$("#ColorIn").change(outputUpdate(this.value,1));
   $("#ColorInRange").change(outputUpdate(this.value,2));
   $("#ColorOut").change(outputUpdate(this.value,3));
   $("#ColorOutRange").change(outputUpdate(this.value,4));*/
-  $("#ColorIn").on('input propertychange',outputUpdate(this.value,1));
-  $("#ColorInRange").on('input propertychange',outputUpdate(this.value,2));
-  $("#ColorOut").on('input propertychange',outputUpdate(this.value,3));
-  $("#ColorOutRange").on('input propertychange',outputUpdate(this.value,4));
-  console.log($("#ColorIn"));
+  var cb = document.getElementById("cb");
+  cb.addEventListener("click", handleClick(cb)); //checkbox 
+
+  var colorIn = document.getElementById("ColorIn");
+  var colorInRange = document.getElementById("ColorInRange");
+  var colorOut = document.getElementById("ColorOut");
+  var colorOutRange = document.getElementById("ColorOutRange");
+
+  colorIn.addEventListener("input",wrapperFunction(colorIn.value,1));
+  colorInRange.addEventListener("input",wrapperFunction(colorInRange.value,2));
+  colorOut.addEventListener('input',wrapperFunction(colorOut.value,3));
+  colorOutRange.addEventListener('input',wrapperFunction(colorOutRange.value,4));
 }
 
 init();
@@ -26,7 +32,6 @@ function handleClick(cb) {
     p.innerHTML = msg;
     document.body.appendChild(p);
 }*/
-
 function outputUpdate(val, num) { 
   console.log(val);
   switch(num) {
@@ -46,3 +51,8 @@ function outputUpdate(val, num) {
       console.log("Huh, weirdness with popup and local storage");
   }
 }
+
+function wrapperFunction(val, num) {
+  chrome.tabs.executeScript(outputUpdate(val, num));
+}
+
