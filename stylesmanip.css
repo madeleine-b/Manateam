@@ -1,0 +1,18 @@
+div {
+	   text-align: center;
+    cursor: pointer;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+#div1 {
+    background: red;
+  }
+
+ #div2 {
+    background: blue;
+ }
+
+ #div3 {
+    background: green;
+ }
