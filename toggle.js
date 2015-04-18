@@ -1,9 +1,14 @@
 function init() {
   $("#cb").on("click", handleClick($("#cb"))); //checkbox 
-  $("#ColorIn").change(outputUpdate(this.value,1));
+  /*$("#ColorIn").change(outputUpdate(this.value,1));
   $("#ColorInRange").change(outputUpdate(this.value,2));
   $("#ColorOut").change(outputUpdate(this.value,3));
-  $("#ColorOutRange").change(outputUpdate(this.value,4));
+  $("#ColorOutRange").change(outputUpdate(this.value,4));*/
+  $("#ColorIn").on('input propertychange',outputUpdate(this.value,1));
+  $("#ColorInRange").on('input propertychange',outputUpdate(this.value,2));
+  $("#ColorOut").on('input propertychange',outputUpdate(this.value,3));
+  $("#ColorOutRange").on('input propertychange',outputUpdate(this.value,4));
+  console.log($("#ColorIn"));
 }
 
 init();
