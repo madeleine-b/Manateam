@@ -12,16 +12,20 @@ function init() {
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
 
-  cb.value = (localStorage.getItem("currentState")!="undefined" ? localStorage.getItem("currentState") : "off");
+  if (localStorage.getItem("currentState")!="undefined") {
+    cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
+  } else {
+    cb.checked = false;
+  }
 
-  colorIn.value = (localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");
-  colorInRange.value = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");
-  colorOut.value = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");
-  colorOutRange.value = (localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");
+  colorIn.value = (typeof localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");
+  colorInRange.value = (typeof localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");
+  colorOut.value = (typeof localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");
+  colorOutRange.value = (typeof localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");
 
 }
 
-init();
+window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
 
