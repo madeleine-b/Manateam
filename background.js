@@ -1,20 +1,14 @@
 // React when a browser action's icon is clicked.
 chrome.browserAction.onClicked.addListener(function(tab) {
-  var viewTabUrl = chrome.extension.getURL('image.html');
-  var imageUrl = /* an image's URL */;
 
-  // Look through all the pages in this extension to find one we can use.
-  var views = chrome.extension.getViews();
-  for (var i = 0; i < views.length; i++) {
-    var view = views[i];
-
-    // If this view has the right URL and hasn't been used yet...
-    if (view.location.href == viewTabUrl && !view.imageAlreadySet) {
-
-      // ...call one of its functions and set a property.
-      view.setImageUrl(imageUrl);
-      view.imageAlreadySet = true;
-      break; // we're done
+chrome.runtime.reload();
+chrome.tabs.query({ url: "<all_urls>"}, function(tabs)
+{
+    for(var i = 0; i < tabs.length; i++)
+    {
+        chrome.tabs.executeScript(tabs[i].id, 
+        		{ file: "imagemanip.js" }, function() {});
+    	chrome.tabs.executeScript(tabs[i].id, 
+    			{ file: "stylemanip.js" }, function() {});
     }
-  }
 });

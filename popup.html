@@ -1,8 +1,6 @@
 <!doctype html>
 <!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
+ This page is shown when the extension button is clicked.
  -->
 
 <html>
@@ -16,22 +14,33 @@
     <title>Color Schemer</title>
     <style>
       body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-family: "Times New Roman", Garamond, Serif;
         font-size: 80%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
+        white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        max-width: 400px;
+        max-width: 600px;
       }
     </style>
   </head>
   <body>
-    <label for="cb"><input id="cb" type="checkbox" onclick="handleClick(this);">
-      Toggle color manipulation
-    </label>
+      <label for="cb"><input id="cb" type="checkbox" onclick="handleClick(this);">
+        Color Schemed
+      </label>
+    </br>
+      <label>Replace: </label>
+      <input type="color" value="#ff0000" name="ColorIn"
+        oninput = outputUpdate(value,1)>
+      <label for=fader>Tolerance</label>
+      <input type=range min=100 max=200 value=15 
+        oninput = outputUpdate(value,2)>
+    </br>
+      <label>With: </label>
+      <input type="color" value="#ff0000" 
+        oninput = outputUpdate(value,3)>
+      <label for=fader>Tolerance</label>
+      <input type=range min=0 max=11 value=5 
+        oninput = outputUpdate(value,4)>
   </body>
 </html>
 
