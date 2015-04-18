@@ -7,10 +7,11 @@ function handleClick(cb) {
     var currentState = 	currentState || "off";
 
     if (cb.checked) {
-    	//call colormanip.js
+    	//call imagemanip.js
+      stylesmanip()
     	//display("Click, new value = " + cb.checked); //for testing
     	//$.getScript("colormanip.js", function(){
-   		//alert("Script loaded and executed.");
+   		alert("Script loaded and executed.");
    		localStorage.currentState = "on";
    		display("localStorage = " + localStorage.currentState);
     }
