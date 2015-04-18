@@ -14,6 +14,23 @@
 	.huerotate {-webkit-filter: hue-rotate(180deg);}
 	.rss.opacity {-webkit-filter: opacity(50%);}
 '''
+
+alert("reaching colormanip")
+chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+    switch(message.type) {
+        case "colors-div":
+            var divs = document.querySelectorAll("div");
+            if(divs.length === 0) {
+                alert("There are no any divs in the page.");
+            } else {
+                for(var i=0; i&lt;divs.length; i++) {
+                    divs[i].style.backgroundColor = message.color;
+                }
+            }
+        break;
+    }
+});
+
 var imageX, imageY;
 var imXDim, imYDim;
 var colorToReplace = "#AAAAAA", replacementColor = "#BBBBBB";
