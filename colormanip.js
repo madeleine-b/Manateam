@@ -1,8 +1,5 @@
 /*
-	1. Load image
-	2. Replace colors
-	3. Adjust contrast, vibracy, etc. to setting
-	4. Put image back (on top of old image?)
+	TODO: Also adjust contrast, vibracy, etc. to setting
 
 	.saturate {-webkit-filter: saturate(3);}
 	.grayscale {-webkit-filter: grayscale(100%);}
@@ -15,15 +12,7 @@
 	.rss.opacity {-webkit-filter: opacity(50%);}
 */
 
-function colorReplaceStuff() {
-	var canvas = createCanvas(); //also adds to page hopefully
-	var context = canvas.getContext('2d');
-	var img = document.getElementById('someImageID');
-
-	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
-	context.drawImage(img, 0, 0);
-	var image = context.getImageData(0, 0, img.width, img.height);
-
+function fixPicsInDoc() {
 	/*
 	var colorToReplace = localStorage.getItem("gColorIn");
 	var replacementColor = localStorage.getItem("gColorOut");
@@ -35,8 +24,8 @@ function colorReplaceStuff() {
 	G_COLOR_IN_MARGIN = 150;
 	G_COLOR_OUT_MARGIN = 150;
 
-	var toReplaceRGB = hexToRGB(colorToReplace);
-	var replacementRGB = hexToRGB(replacementColor);
+	toReplaceRGB = hexToRGB(colorToReplace);
+	replacementRGB = hexToRGB(replacementColor);
 
 	function hexToRGB(h) {
 		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
@@ -46,16 +35,27 @@ function colorReplaceStuff() {
 	function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
 	function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
 	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+
+	var images = document.images;
+	console.log(images.length);
+	for (var i = 0; i < images.length; i++) {
+		console.log(images[i]);
+		colorReplace(images[i]);
+	}
+}
+
+
+function colorReplace(img) {
+	var canvas = createCanvas(img); //also adds to page hopefully
+	var context = canvas.getContext('2d');
+	//var img = document.getElementById(imageID);
+
+	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
+	context.drawImage(img, 0, 0);
+	var image = context.getImageData(0, 0, img.width, img.height);
  
-	//just r/g/b in range of, not whole color yet (different?)
 	for (var i = 0, n = image.data.length; i < n; i += 4) {
-		/*if (Math.abs(toReplaceRGB.r-image.data[i])<=MARGIN && // red
- 			Math.abs(toReplaceRGB.g-image.data[i+1]<=MARGIN) && // green
- 			Math.abs(toReplaceRGB.b-image.data[i+2]<=MARGIN))  { //blue
-			image.data[i] = replacementRGB.r;
-			image.data[i+1] = replacementRGB.g;
-			image.data[i+2] = replacementRGB.b;
-		}*/
+		//3D RGB space mapping :)
 		if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
 			image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
 			image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
@@ -64,7 +64,7 @@ function colorReplaceStuff() {
 		//i+3 is alpha channel for opacity
 	}
 
-	$("#someImageID").remove();
+	img.parentNode.removeChild(img);
 	context.putImageData(image, 0, 0);
 	console.log("image replacement success");
 }
@@ -81,10 +81,9 @@ function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	return distanceBetween<=varMargin;
 }
 
-function createCanvas() {
+function createCanvas(img) {
     var canvas = document.createElement('canvas');
-    
-    var img = $("#someImageID");
+   
     canvas.width = img.width();
     canvas.height = img.height();
     canvas.style.width = canvas.width + "px";
@@ -96,7 +95,8 @@ function createCanvas() {
 
     //console.log("top "+img.offset().top+" left "+img.offset().left+" right "+img.offset().right+" bottom "+img.offset().bottom);
 
-    $("#someImageID").after(canvas);
+    img.after(canvas);
+    //referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 
     return canvas;
 }
