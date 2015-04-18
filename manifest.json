@@ -1,9 +1,14 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Customize Color",
+  "default_locale": "en",
+  "description": "This extension modifies webpages to personalized colorschemes",
   "version": "1.0",
+
+  "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
 
   "browser_action": {
     "default_icon": "icon.png",
