@@ -7,7 +7,7 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
             if(divs.length === 0) {
                 alert("There are no any divs in the page.");
             } else {
-                for(var i=0; i&lt;divs.length; i++) {
+                for(var i=0; i<divs.length; i++) {
                     divs[i].style.backgroundColor = message.color;
                 }
             }
