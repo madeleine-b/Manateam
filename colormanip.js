@@ -15,11 +15,11 @@
 	.rss.opacity {-webkit-filter: opacity(50%);}
 */
 
-alert(reaches colormanip);
+alert("reaches colormanip");
 
 function colorReplaceStuff() {
 	
-	alert(reaches colorReplaceStuff);
+	alert("reaches colorReplaceStuff");
 	var canvas = createCanvas(); //also adds to page hopefully
 	var context = canvas.getContext('2d');
 	var img = document.getElementById('someImageID');
@@ -28,12 +28,11 @@ function colorReplaceStuff() {
 	context.drawImage(img, 0, 0);
 	var image = context.getImageData(0, 0, img.width, img.height);
 
-	/*
+function fixPicsInDoc(images) {
 	var colorToReplace = localStorage.getItem("gColorIn");
 	var replacementColor = localStorage.getItem("gColorOut");
 	G_COLOR_IN_MARGIN = localStorage.getItem("tolIn"); //100 to 200
 	G_COLOR_OUT_MARGIN = localStorage.getItem("tolOut"); //100 to 200
-	*/
 	var colorToReplace = "#BE2A3A";
 	var replacementColor = 	"#6f47e1";
 	G_COLOR_IN_MARGIN = 150;

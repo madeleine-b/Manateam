@@ -1,7 +1,7 @@
 // React when a browser action's icon is clicked.
 alert("background begins to run");
 
-if localStorage.currentState = "on"{ 
+if localStorage.currentState == "on"{ 
 	$.getScript("imagemanip.js", function(){
 		var images=$('img');
 		fixPicsInDoc(images);
