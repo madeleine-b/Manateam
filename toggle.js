@@ -4,17 +4,17 @@ function init() {
   $("#ColorOut").change(outputUpdate(this.value,3));
   $("#ColorOutRange").change(outputUpdate(this.value,4));*/
   var cb = document.getElementById("cb");
-  cb.addEventListener("click", handleClick(cb)); //checkbox 
+  cb.addEventListener("click", function() {handleClick(cb);}); //checkbox 
 
   var colorIn = document.getElementById("ColorIn");
   var colorInRange = document.getElementById("ColorInRange");
   var colorOut = document.getElementById("ColorOut");
   var colorOutRange = document.getElementById("ColorOutRange");
 
-  colorIn.addEventListener("input",wrapperFunction(colorIn.value,1));
-  colorInRange.addEventListener("input",wrapperFunction(colorInRange.value,2));
-  colorOut.addEventListener('input',wrapperFunction(colorOut.value,3));
-  colorOutRange.addEventListener('input',wrapperFunction(colorOutRange.value,4));
+  colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
+  colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
+  colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
+  colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
 }
 
 init();
@@ -26,12 +26,6 @@ function handleClick(cb) {
   console.log("currentState is now " + localStorage.getItem("currentState"));
 }
 
-//for testing
-/*function display(msg) {
-    var p = document.createElement('p');
-    p.innerHTML = msg;
-    document.body.appendChild(p);
-}*/
 function outputUpdate(val, num) { 
   console.log(val);
   switch(num) {
@@ -50,9 +44,5 @@ function outputUpdate(val, num) {
     default:
       console.log("Huh, weirdness with popup and local storage");
   }
-}
-
-function wrapperFunction(val, num) {
-  chrome.tabs.executeScript(outputUpdate(val, num));
 }
 
