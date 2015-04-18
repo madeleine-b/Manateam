@@ -1,7 +1,7 @@
 /*
 	1. Load image
 	2. Replace colors
-	3. Adjust contrast, vibracy, etc. to setting
+	3. Adjust contrast, vibrancy, etc. to setting
 	4. Put image back (on top of old image?)
 
 	.saturate {-webkit-filter: saturate(3);}
@@ -15,7 +15,11 @@
 	.rss.opacity {-webkit-filter: opacity(50%);}
 */
 
+alert(reaches colormanip);
+
 function colorReplaceStuff() {
+	
+	alert(reaches colorReplaceStuff);
 	var canvas = createCanvas(); //also adds to page hopefully
 	var context = canvas.getContext('2d');
 	var img = document.getElementById('someImageID');

@@ -3,20 +3,23 @@
 
 //alert("reaching stylesmanip")
 
-$( document.body ).click(function() {
-  $( "[id^='div']" ).each(function(i) {
-  	console.log("style: " + $(this).css('background-color'));
-    if ($(this).css('background-color') == 'rgb(0, 0, 255)') {
-      $(this).css({background: 'yellow'});
-    //} else {
-      //$(this).css({background: 'blue'});
-    }
-  });
-});
+$( document.body ).click(replaceStyle());
 
 //for testing
 function display(msg) {
     var p = document.createElement('p');
     p.innerHTML = msg;
     document.body.appendChild(p);
+}
+
+function replaceStyle() {
+  alert(reaches replaceStyle)
+  $( "[id^='div']" ).each(function(i) {
+    console.log("style: " + $(this).css('background-color'));
+    if ($(this).css('background-color') == 'rgb(0, 0, 255)') {
+      $(this).css({background: 'yellow'});
+    //} else {
+      //$(this).css({background: 'blue'});
+    }
+  });
 }
