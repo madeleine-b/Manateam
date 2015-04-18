@@ -14,13 +14,20 @@
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+<<<<<<< HEAD
 
   "background": {
     "scripts": ["background.js"]
   },
   
+=======
+  "background": {
+    "persistant": false
+  },
+>>>>>>> origin/master
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/"
-  ]
+  ],
+
 }
