@@ -11,8 +11,33 @@
 	.huerotate {-webkit-filter: hue-rotate(180deg);}
 	.rss.opacity {-webkit-filter: opacity(50%);}
 */
+function createCanvas(img) {
+    var canvas = document.createElement('canvas');
 
-function fixPicsInDoc() {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas.style.width = canvas.width + "px";
+    canvas.style.height = canvas.height + "px";
+    canvas.style.top = getPosition.y;
+    canvas.style.left = getPosition(img).x;
+
+    img.parentNode.insertBefore(canvas, img.nextSibling);
+
+    return canvas;
+}
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+    while(element) {
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    return { "x": xPosition, "y": yPosition };
+}
+
+function fixPicsInDoc(images) {
 	/*
 	var colorToReplace = localStorage.getItem("gColorIn");
 	var replacementColor = localStorage.getItem("gColorOut");
@@ -36,19 +61,15 @@ function fixPicsInDoc() {
 	function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
 	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
 
-	var images = document.images;
-	console.log(images.length);
 	for (var i = 0; i < images.length; i++) {
-		console.log(images[i]);
+		console.log(i);
 		colorReplace(images[i]);
 	}
 }
 
-
 function colorReplace(img) {
-	var canvas = createCanvas(img); //also adds to page hopefully
+	var canvas = createCanvas(img); 
 	var context = canvas.getContext('2d');
-	//var img = document.getElementById(imageID);
 
 	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
 	context.drawImage(img, 0, 0);
@@ -81,25 +102,6 @@ function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	return distanceBetween<=varMargin;
 }
 
-function createCanvas(img) {
-    var canvas = document.createElement('canvas');
-   
-    canvas.width = img.width();
-    canvas.height = img.height();
-    canvas.style.width = canvas.width + "px";
-    canvas.style.height = canvas.height + "px";
-    canvas.style.top = (img.offset().top ? img.offset().top : 0);
-    canvas.style.left = (img.offset().left ? img.offset().left : 0);
-    canvas.style.right = (img.offset().right ? img.offset().right : 0);
-    canvas.style.bottom = (img.offset().bottom ? img.offset().bottom : 0);
-
-    //console.log("top "+img.offset().top+" left "+img.offset().left+" right "+img.offset().right+" bottom "+img.offset().bottom);
-
-    img.after(canvas);
-    //referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-
-    return canvas;
-}
 
 //thanks @SO
 /*
