@@ -1,12 +1,13 @@
-// 1. Iterate through each element on the page
-// 2. Replace specified color with another specified color (with margin)
+//This script replaces all colors (within a defined margin) in each element on the page 
+//(div, text, background, etc) with a defined color.
 
+// TODO:
+// -Do for elements other than divs
+// -Note: don't think we need margin for replaceWith, because each element will have uniform color
 
 var MARGIN = 150;
 var toReplace = {"r" : 0, "g" : 0, "b" : 255};
-
-//haven't implemented this yet, just hard coding for now
-//var replaceWith = {"r" : 0, "g" : 255, "b" : 255};
+var replaceWith = "rgb(255,255,0)";
 
 //goes through every div in the page and replaces specified color with yellow (hard coded for now)
 $( document ).ready(function() {
@@ -15,7 +16,7 @@ $( document ).ready(function() {
   	webRGB = hexToRGB(webHex);
   	console.log("div" + (i+1) + ": r: " + webRGB.r + " g: " + webRGB.g + " b: " + webRGB.b);
     if (colorWithinRange(MARGIN, webRGB.r, webRGB.g, webRGB.b, toReplace)) {
-    	$(this).css({'background-color': 'yellow'});
+    	$(this).css({'background-color': replaceWith});
     	console.log("color replaced");
     }
   });
