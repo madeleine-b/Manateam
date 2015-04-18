@@ -1,11 +1,11 @@
 // React when a browser action's icon is clicked.
-alert("background begins to run");
+console.log("background running");
 
-if localStorage.currentState == "on"{ 
+if (localStorage.getItem("currentState") && localStorage.getItem("currentState") == "on") { 
 	$.getScript("imagemanip.js", function(){
 		var images=$('img');
 		fixPicsInDoc(images);
-	}
+	});
 	// replaceStyle()
 }
 

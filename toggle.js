@@ -1,38 +1,33 @@
 //Toggles colormanip on the page when button clicked
 
-
-   function handleClick(cb) {
-    //display("Click, new value = " + cb.checked); //for testing
-
-    //global variable to set as on or off to toggle colormanip
-    var currentState = 	currentState || "off";
-
-    if (cb.checked) {
-    	imagemanip.js
-      stylesmanip()
-    	//display("Click, new value = " + cb.checked); //for testing
-    	//$.getScript("colormanip.js", function(){
-   		alert("Script loaded and executed.");
-   		localStorage.setItem(currentState, "on");
-   		display("localStorage = " + localStorage.currentState);
-    }
-    else {
-    	localStorage.setItem(currentState,"off");
-   		display("localStorage = " + localStorage.currentState);
-      }
-});
+function handleClick(cb) {
+  localStorage.setItem("currentState", (cb.checked ? "on" : "off"));
+  console.log("currentState is now " + localStorage.getItem("currentState"));
+}
 
 //for testing
-function display(msg) {
+/*function display(msg) {
     var p = document.createElement('p');
     p.innerHTML = msg;
     document.body.appendChild(p);
-}
+}*/
 
 function outputUpdate(val,num) { 
-  switch(num)
-  1: localStorage.gColorIn = val;
-  2: localStorage.tolIn = val;
-  3: localStorage.gColorOut = val;
-  4: localStorage.tolOut = val;
+  switch(num) {
+    console.log("value"+val);
+    case 1:
+      localStorage.setItem("gColorIn",val);
+      break;
+    case 2:
+      localStorage.setItem("tolIn",val);
+      break;
+    case 3:
+      localStorage.setItem("gColorOut",val);
+      break;
+    case 4:
+      localStorage.setItem("tolOut", val);
+      break;
+    default:
+      console.log("Huh, weirdness with popup and local storage");
   }
+}

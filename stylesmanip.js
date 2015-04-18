@@ -13,7 +13,7 @@ function display(msg) {
 }
 
 function replaceStyle() {
-  alert("reaches replaceStyle")
+  console.log("reaches replaceStyle");
   $( "[id^='div']" ).each(function(i) {
     console.log("style: " + $(this).css('background-color'));
     if ($(this).css('background-color') == 'rgb(0, 0, 255)') {
