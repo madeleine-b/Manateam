@@ -1,8 +1,4 @@
 function init() {
-  /*$("#ColorIn").change(outputUpdate(this.value,1));
-  $("#ColorInRange").change(outputUpdate(this.value,2));
-  $("#ColorOut").change(outputUpdate(this.value,3));
-  $("#ColorOutRange").change(outputUpdate(this.value,4));*/
   var cb = document.getElementById("cb");
   cb.addEventListener("click", function() {handleClick(cb);}); //checkbox 
 
@@ -15,6 +11,14 @@ function init() {
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
+
+  cb.value = (localStorage.getItem("currentState")!="undefined" ? localStorage.getItem("currentState") : "off");
+
+  colorIn.value = (localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");
+  colorInRange.value = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");
+  colorOut.value = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");
+  colorOutRange.value = (localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");
+
 }
 
 init();
