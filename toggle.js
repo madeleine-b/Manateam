@@ -4,7 +4,7 @@ function handleClick(cb) {
     //display("Click, new value = " + cb.checked); //for testing
 
     //global variable to set as on or off to toggle colormanip
-    var currentState = localStorage.currentState || "off";
+    var currentState = 	currentState || "off";
 
     if (cb.checked) {
     	//call colormanip.js
