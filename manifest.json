@@ -10,43 +10,30 @@
     "persistant": false
   },
 
- "options_page": "options/index.html",
+ "options_page": "options.html",
 
  "content_scripts": [
     {
-      "matches": ["<all_urls>"]
-      "css": ["mystyles.css"]
+      "matches": ["<all_urls>"],
+      "css": ["mystyles.css"],
       "js": ["jquery-2.1.3.js", 
             "colormanip.js"]
     }
   ],
-{
-    "matches": ["<all_urls>"],
-
-    "css": [
-    ],
-
-    "js": [
-    ],
-
-    "run_at": "document_start",
-    "all_frames": true
-  },
 
 "browser_action": {
     "default_icon": "icon.png",
-    "default_title": "Customize Color"
+    "default_title": "Customize Color",
     "default_popup": "popup.html"
   },
 
   "icons": { 
     "16": "icon16.png",
     "48": "icon48.png",
-    "128": "icon128.png" },
-  },
+    "128": "icon128.png" }
 
   "permissions": [
-    "activeTab"
+    "activeTab",
     "<all_urls>"
   ]
 }
