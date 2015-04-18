@@ -6,8 +6,8 @@
 <html>
   <head>
     <!-- adding jquery -->
-    <script src="jquery-2.1.3"></script>
-    <script src="toggle.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="toggle.js"></script>
 
     <title>MANATEAM Popup</title>
     <title>Color Schemer</title>
@@ -30,12 +30,12 @@
       <label>Replace: </label>
       <input type="color" value="#ff0000" name="ColorIn" oninput="outputUpdate(value,1)">
       <label for="fader">Tolerance</label>
-      <input type="range" min=100 max=200 value=15 oninput="outputUpdate(value,2)">
+      <input type="range" min="100" max="200" value="15" oninput="outputUpdate(value,2)">
     </br>
       <label>With: </label>
       <input type="color" value="#ff0000" oninput="outputUpdate(value,3)">
       <label for="fader">Tolerance</label>
-      <input type="range" min=0 max=11 value=5 oninput="outputUpdate(value,4)">
+      <input type="range" min="0" max="11" value="5" oninput="outputUpdate(value,4)">
   </body>
 </html>
 
