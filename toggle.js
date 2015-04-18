@@ -1,3 +1,13 @@
+function init() {
+  $("#cb").on("click", handleClick($("#cb"))); //checkbox 
+  $("#ColorIn").change(outputUpdate(this.value,1));
+  $("#ColorInRange").change(outputUpdate(this.value,2));
+  $("#ColorOut").change(outputUpdate(this.value,3));
+  $("#ColorOutRange").change(outputUpdate(this.value,4));
+}
+
+init();
+
 //Toggles colormanip on the page when button clicked
 
 function handleClick(cb) {
@@ -12,9 +22,9 @@ function handleClick(cb) {
     document.body.appendChild(p);
 }*/
 
-function outputUpdate(val,num) { 
+function outputUpdate(val, num) { 
+  console.log(val);
   switch(num) {
-    console.log("value"+val);
     case 1:
       localStorage.setItem("gColorIn",val);
       break;
