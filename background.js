@@ -3,7 +3,8 @@ alert("background begins to run");
 
 if localStorage.currentState = "on"{ 
 	$.getScript("imagemanip.js", function(){
-		fixPicsInDoc()
+		var images=$('img');
+		fixPicsInDoc(images);
 	}
 	// replaceStyle()
 }

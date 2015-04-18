@@ -5,19 +5,28 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="colormanip.js"></script>
 		<script>
-			window.onload = function() {
-				colorReplaceStuff();
-			}
+			$(window).load(function() {
+				var images = $('img');
+				console.log(images);
+				fixPicsInDoc(images);
+			});
 		</script>
 	</head>
 
-	<body>
+	<body onload="fxn()">
 		<div>
 			<h2>Hello world.</h2>
 			<p>Hi so this is a paragraph. Now we're gonna insert an image.
 				Okay more text blah blah blah
-				<img id="someImageID" style="position:absolute;top:30px;left:50px;" src="http://madeleine-b.me/cake_bubble.png"></img>
+				<img style="position:absolute;top:30px;left:50px;" src="http://madeleine-b.me/gradhat.png"></img>
+				<img style="position:relative; top:5px;left:1px;" src="http://madeleine-b.me/cake_bubble.png"></img>
 				<!--<button onclick="colorReplaceStuff()">Click me</button>-->
+			</p>
+		</div>
+		<div>
+			<p>
+				Yoyoyoyo<br>
+				
 			</p>
 		</div>
 	</body>

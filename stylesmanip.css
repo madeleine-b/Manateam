@@ -1,18 +1,18 @@
 div {
-	   text-align: center;
+	text-align: center;
     cursor: pointer;
     font-size: 50px;
     margin-bottom: 10px;
 }
 
 #div1 {
-    background: red;
+    background: rgb(255,0,0);
   }
 
  #div2 {
-    background: blue;
+    background: rgb(0,255,0);;
  }
 
  #div3 {
-    background: green;
+    background: rgb(0,0,255);;
  }
