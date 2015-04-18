@@ -26,3 +26,11 @@ function display(msg) {
     p.innerHTML = msg;
     document.body.appendChild(p);
 }
+
+function outputUpdate(val,num) { 
+  switch(num)
+  1: localStorage.gColorIn = val;
+  2: localStorage.tolIn = val;
+  3: localStorage.gColorOut = val;
+  4: localStorage.tolOut = val;
+  }
