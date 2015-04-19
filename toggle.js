@@ -2,15 +2,16 @@ function init() {
   var cb = document.getElementById("cb");
   cb.addEventListener("click", function() {handleClick(cb);}); //checkbox 
 
-  var colorIn = document.getElementById("ColorIn");
-  var colorInRange = document.getElementById("ColorInRange");
-  var colorOut = document.getElementById("ColorOut");
-  var colorOutRange = document.getElementById("ColorOutRange");
+  colorIn = document.getElementById("ColorIn");
+  colorInRange = document.getElementById("ColorInRange");
+  colorOut = document.getElementById("ColorOut");
+  colorOutRange = document.getElementById("ColorOutRange");
 
   colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
+  colorOutRange.addEventListener('input',function() {outputUpdate(colorblind.value,5);});
 
   if (localStorage.getItem("currentState")!="undefined") {
     cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
@@ -29,22 +30,26 @@ window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
 function handleClick(cb) {
-  localStorage.setItem("currentState", (cb.checked ? "on" : "off"));
+  localStorage.setItem("currentState", (cb.checked==true ? "on" : "off"));
+
   console.log("currentState is now " + localStorage.getItem("currentState"));
 
   if (cb.checked) {
     console.log("checked");
-    /*chrome.runtime.sendMessage({method:'getImages'}, function(response){
-      console.log("got response");
-      fixPicsInDoc(response);
-    });*/
-    console.log("changing colors in images on page?");
-    chrome.runtime.sendMessage({method:'getImages'}, function(response){
-      console.log("response=");
-      console.log(response);
-      fixPicsInDoc(response['title']);
-    });
+
+    values = {'doFxn':true, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
+    chrome.runtime.sendMessage(
+      {'method':'getValues', 'values':values},
+      function(response){
+        console.log("response=");
+        console.log(response);
+      }
+    );
     //fixPicsInDoc(images);
+  } else {
+    console.log("unchecked");
+    values = {'doFxn':false, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
+
   }
 }
 
@@ -63,8 +68,25 @@ function outputUpdate(val, num) {
     case 4:
       localStorage.setItem("tolOut", val);
       break;
+    case 5:
+      localStorage.setItem("gColorIn", "#009933");
+      localStorage.getItem("gColorOut", "#99FF33");
+      break;
     default:
       console.log("Huh, weirdness with popup and local storage");
   }
 }
 
+/*
+  TODO: Also adjust contrast, vibracy, etc. to setting
+
+  .saturate {-webkit-filter: saturate(3);}
+  .grayscale {-webkit-filter: grayscale(100%);}
+  .contrast {-webkit-filter: contrast(160%);}
+  .brightness {-webkit-filter: brightness(0.25);}
+  .blur {-webkit-filter: blur(3px);}
+  .invert {-webkit-filter: invert(100%);}
+  .sepia {-webkit-filter: sepia(100%);}
+  .huerotate {-webkit-filter: hue-rotate(180deg);}
+  .rss.opacity {-webkit-filter: opacity(50%);}
+*/
