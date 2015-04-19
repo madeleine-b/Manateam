@@ -7,12 +7,12 @@
 // -Note: don't think we need margin for replaceWith, because each element will have uniform color
 
 
-//var MARGIN = 150;
-//var toReplace = {"r" : 0, "g" : 0, "b" : 255};
-//var replaceWith = "rgb(255, 0, 0)";
-var toReplace = splitRGB(localStorage.getItem("gColorIn"));
-var replaceWith = localStorage.getItem("gColorOut");
-MARGIN = parseInt(localStorage.getItem("tolIn"), 10); //100 to 200
+var MARGIN = 150;
+var toReplace = {"r" : 0, "g" : 0, "b" : 255};
+var replaceWith = "rgb(255, 0, 255)";
+//var toReplace = (localStorage.getItem("gColorIn")!='undefined' ? localStorage.getItem("gColorIn") : {"r" : 0, "g" : 0, "b" : 255});
+//var replaceWith = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "rgb(255, 0, 0)");
+//var MARGIN = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : 150); //100 to 200
 var backgroundRGB = [''];
 var colorRGB = [''];
   
