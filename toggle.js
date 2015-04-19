@@ -39,10 +39,10 @@ function handleClick(cb) {
       fixPicsInDoc(response);
     });*/
     console.log("changing colors in images on page?");
-    chrome.runtime.sendMessage({method:'getImages'}, function(response){
+    chrome.runtime.sendMessage({'method':'getImages'}, function(response){
       console.log("response=");
       console.log(response);
-      fixPicsInDoc(response['title']);
+      fixPicsInDoc(response.title);
     });
     //fixPicsInDoc(images);
   }

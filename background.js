@@ -15,8 +15,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
 	console.log(message);
 	console.log(sender);
-	if(message.method == 'getImages') {
-		images = $('img');
+	if(message['method'] === 'sendImages') {
+		images = message['title'];
+		sendResponse("Images received");
+	} else if (message['method'] === 'getImages') {
 		sendResponse(images);
 	}
 });
