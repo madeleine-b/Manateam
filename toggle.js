@@ -11,7 +11,6 @@ function init() {
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
-  colorOutRange.addEventListener('input',function() {outputUpdate(colorblind.value,5);});
 
   if (localStorage.getItem("currentState")!="undefined") {
     cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
@@ -67,10 +66,6 @@ function outputUpdate(val, num) {
       break;
     case 4:
       localStorage.setItem("tolOut", val);
-      break;
-    case 5:
-      localStorage.setItem("gColorIn", "#009933");
-      localStorage.getItem("gColorOut", "#99FF33");
       break;
     default:
       console.log("Huh, weirdness with popup and local storage");

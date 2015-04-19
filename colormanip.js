@@ -29,8 +29,8 @@ function getPosition(element) {
 
 function fixPicsInDoc() {
 	var images = $('img');
-	//console.log("fixPics executes on "+images.length+" images");
-
+	console.log("fixPics executes on "+images.length+" images");
+	
 	var colorToReplace = (localStorage.getItem("gColorIn")!='undefined' ? localStorage.getItem("gColorIn") : "#BE2A3A");
 	var replacementColor = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#6f47e1");
 	G_COLOR_IN_MARGIN = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "150"); //100 to 200
