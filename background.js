@@ -7,6 +7,7 @@ function init() {
   var colorOut = document.getElementById("ColorOut");
   var colorOutRange = document.getElementById("ColorOutRange");
 
+
   colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
@@ -25,13 +26,20 @@ function init() {
 
 /*
 var images;
+=======
+var values;
+>>>>>>> scriptstuff
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
 	console.log(message);
+	console.log(typeof message);
 	console.log(sender);
-	if(message.method == 'getImages') {
-		images = $('img');
-		sendResponse(images);
+
+	if(message['method'] == 'getValues') {
+		values = message['values'];
+		sendResponse("Values received");
+	} else if (message['method'] == 'sendValues') {
+		sendResponse(values);
 	}
 });*/
 /*if (localStorage.getItem("currentState") == "on") { 
