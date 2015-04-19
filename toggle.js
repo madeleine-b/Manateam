@@ -1,27 +1,36 @@
 function init() {
   var cb = document.getElementById("cb");
-  cb.addEventListener("click", function() {handleClick(cb);}); //checkbox 
-
+  if(cb){
+  cb.addEventListener("click", function() {handleClick(cb);});} //checkbox 
   colorIn = document.getElementById("ColorIn");
   colorInRange = document.getElementById("ColorInRange");
   colorOut = document.getElementById("ColorOut");
   colorOutRange = document.getElementById("ColorOutRange");
 
-  colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
-  colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
-  colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
-  colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
+  if(colorIn){
+  colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});}
+  if(colorInRange){
+  colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});}
+  if(colorOut){
+  colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});}
+  if(colorOutRange){
+  colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});}
 
   if (localStorage.getItem("currentState")!="undefined") {
-    cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
+    if(cb){
+	cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);}
   } else {
     cb.checked = false;
   }
 
-  colorIn.value = (typeof localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");
-  colorInRange.value = (typeof localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");
-  colorOut.value = (typeof localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");
-  colorOutRange.value = (typeof localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");
+  if(colorIn){
+  colorIn.value = (typeof localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");}
+  if(colorInRange){
+  colorInRange.value = (typeof localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");}
+  if(colorOut){
+  colorOut.value = (typeof localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");}
+  if(colorOutRange){
+  colorOutRange.value = (typeof localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");}
 
 }
 

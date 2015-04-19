@@ -1,23 +1,3 @@
-// localStorage.setItem("currentState","on");
-
-function init() {
-
-  var colorIn = document.getElementById("ColorIn");
-  var colorInRange = document.getElementById("ColorInRange");
-  var colorOut = document.getElementById("ColorOut");
-  var colorOutRange = document.getElementById("ColorOutRange");
-
-
-  colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
-  colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
-  colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
-  colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
-
-  if (localStorage.getItem("currentState")!="undefined") {
-    cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
-  } else {
-    cb.checked = false;
-  }
 console.log("background running, currentState is "+localStorage.getItem("currentState"));
 
 // if (localStorage.getItem("currentState") == "on") { 
@@ -30,11 +10,8 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
-}
-
 var images;
 var values;
-
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
 	console.log(message);
