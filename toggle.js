@@ -8,6 +8,7 @@ function init() {
   colorInRange = document.getElementById("ColorInRange");
   colorOut = document.getElementById("ColorOut");
   colorOutRange = document.getElementById("ColorOutRange");
+  colorblind = document.getElementById("colorblind");
 
   if(colorIn){
     colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
