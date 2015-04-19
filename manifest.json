@@ -8,8 +8,8 @@
   "background": {
     "scripts": ["jquery-2.1.3.js", 
       "background.js", 
-      "content_script.js"],
-    "persistant": false
+      "content_script.js"]
+    // "persistant": false
   },
 
  "options_page": "options.html",

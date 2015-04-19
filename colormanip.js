@@ -39,15 +39,16 @@ function getPosition(element) {
 
 function fixPicsInDoc(images) {
 	console.log("fixPics executes");
-	/*var colorToReplace = localStorage.getItem("gColorIn");
+	
+	var colorToReplace = localStorage.getItem("gColorIn");
 	var replacementColor = localStorage.getItem("gColorOut");
 	G_COLOR_IN_MARGIN = localStorage.getItem("tolIn"); //100 to 200
-	G_COLOR_OUT_MARGIN = localStorage.getItem("tolOut"); //100 to 200*/
+	G_COLOR_OUT_MARGIN = localStorage.getItem("tolOut"); //100 to 200
 	
-	var colorToReplace = "#BE2A3A";
-	var replacementColor = 	"#6f47e1";
-	G_COLOR_IN_MARGIN = 150;
-	G_COLOR_OUT_MARGIN = 150;
+	// var colorToReplace = "#BE2A3A";
+	// var replacementColor = 	"#6f47e1";
+	// G_COLOR_IN_MARGIN = 150;
+	// G_COLOR_OUT_MARGIN = 150;
 
 	toReplaceRGB = hexToRGB(colorToReplace);
 	replacementRGB = hexToRGB(replacementColor);
