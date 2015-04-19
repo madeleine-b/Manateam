@@ -11,6 +11,7 @@ function init() {
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
+  colorOutRange.addEventListener('input',function() {outputUpdate(colorblind.value,5);});
 
   if (localStorage.getItem("currentState")!="undefined") {
     cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
@@ -67,8 +68,25 @@ function outputUpdate(val, num) {
     case 4:
       localStorage.setItem("tolOut", val);
       break;
+    case 5:
+      localStorage.setItem("gColorIn", "#009933");
+      localStorage.getItem("gColorOut", "#99FF33");
+      break;
     default:
       console.log("Huh, weirdness with popup and local storage");
   }
 }
 
+/*
+  TODO: Also adjust contrast, vibracy, etc. to setting
+
+  .saturate {-webkit-filter: saturate(3);}
+  .grayscale {-webkit-filter: grayscale(100%);}
+  .contrast {-webkit-filter: contrast(160%);}
+  .brightness {-webkit-filter: brightness(0.25);}
+  .blur {-webkit-filter: blur(3px);}
+  .invert {-webkit-filter: invert(100%);}
+  .sepia {-webkit-filter: sepia(100%);}
+  .huerotate {-webkit-filter: hue-rotate(180deg);}
+  .rss.opacity {-webkit-filter: opacity(50%);}
+*/
