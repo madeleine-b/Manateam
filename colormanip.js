@@ -31,17 +31,22 @@ function fixPicsInDoc() {
 	var images = $('img');
 	console.log("fixPics executes on "+images.length+" images");
 	
-	var colorToReplace = (localStorage.getItem("gColorIn")!='undefined' ? localStorage.getItem("gColorIn") : "#BE2A3A");
-	var replacementColor = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#6f47e1");
-	G_COLOR_IN_MARGIN = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "150"); //100 to 200
-	G_COLOR_OUT_MARGIN = (localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "150"); //100 to 200
+	var colorToReplace = chrome.storage.local.get("gColorIn", function(item) {return "#BE2A3A";});
+	var replacementColor = chrome.storage.local.get("gColorOut", function(item) {return "#6f47e1";})
+	G_COLOR_IN_MARGIN = chrome.storage.local.get("tolIn", function(item) {return "150";}) //100 to 200
+	G_COLOR_OUT_MARGIN = chrome.storage.local.get("tolOut", function(item) {return "150";}) //100 to 200
 
-	console.log("HIHIHI"+localStorage.getItem("gColorIn"));
-	
 	var colorToReplace = "#BE2A3A";
+	var replacementColor = "#6f47e1";
+	G_COLOR_IN_MARGIN = "150"; //100 to 200
+	G_COLOR_OUT_MARGIN = "150"; //100 to 200
+
+	//console.log("HIHIHI"+chrome.storage.local.get("gColorIn", function(i){}));
+	
+	/*var colorToReplace = "#BE2A3A";
 	var replacementColor = 	"#6f47e1";
 	G_COLOR_IN_MARGIN = 150;
-	G_COLOR_OUT_MARGIN = 150;
+	G_COLOR_OUT_MARGIN = 150;*/
 
 	toReplaceRGB = hexToRGB(colorToReplace);
 	replacementRGB = hexToRGB(replacementColor);

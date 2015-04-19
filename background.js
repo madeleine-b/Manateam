@@ -1,4 +1,4 @@
-console.log("background running, currentState is "+localStorage.getItem("currentState"));
+console.log("background running, currentState is "+chrome.storage.local.get("currentState", function(items){}));
 
 // if (localStorage.getItem("currentState") == "on") { 
 // 	console.log("background registers currentSTate on");
@@ -10,7 +10,7 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
-var values;
+/*var values;
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
 	console.log(message);
@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	} else if (message['method'] == 'sendValues') {
 		sendResponse(values);
 	}
-});
+});*/
 /*if (localStorage.getItem("currentState") == "on") { 
 	console.log("background registers currentState on");
 	chrome.tabs.query({ url: "<all_urls>"}, function(tabs)

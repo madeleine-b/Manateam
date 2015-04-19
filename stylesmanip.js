@@ -6,7 +6,7 @@
 // -Do for elements other than divs
 // -Note: don't think we need margin for replaceWith, because each element will have uniform color
 
-
+/*
 //var MARGIN = 150;
 //var toReplace = {"r" : 0, "g" : 0, "b" : 255};
 //var replaceWith = "rgb(255, 0, 0)";
@@ -85,4 +85,4 @@ function splitRGB(rgb) {
   var splitArray = split.exec(rgb);
   return splitArray;
   //console.log("in splitRGB, splitArray: " + splitArray);
-}
+}*/
