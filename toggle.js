@@ -67,11 +67,6 @@ function init() {
   }
 }
 
-function isExisting(thing) {
-  console.log(thing+" = "+((typeof thing)!=undefined && thing!=null));
-  return ((typeof thing)!=undefined && thing!=null);
-}
-
 window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
