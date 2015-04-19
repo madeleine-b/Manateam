@@ -58,15 +58,23 @@ function outputUpdate(val, num) {
   switch(num) {
     case 1:
       localStorage.setItem("gColorIn",val);
+      console.log("case 1");
+      fixPicsInDoc();
       break;
     case 2:
       localStorage.setItem("tolIn",val);
+      console.log("case 2");
+      fixPicsInDoc();
       break;
     case 3:
       localStorage.setItem("gColorOut",val);
+      console.log("case 3");
+      fixPicsInDoc();
       break;
     case 4:
       localStorage.setItem("tolOut", val);
+      console.log("case 4");
+      fixPicsInDoc();
       break;
     case 5:
       localStorage.setItem("gColorIn", "#009933");

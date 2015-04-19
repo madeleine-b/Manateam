@@ -43,6 +43,8 @@ function fixPicsInDoc(images) {
 	var replacementColor = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#6f47e1");
 	G_COLOR_IN_MARGIN = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "150"); //100 to 200
 	G_COLOR_OUT_MARGIN = (localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "150"); //100 to 200
+
+	console.log("HIHIHI"+localStorage.getItem("gColorIn"));
 	
 	/*var colorToReplace = "#BE2A3A";
 	var replacementColor = 	"#6f47e1";
