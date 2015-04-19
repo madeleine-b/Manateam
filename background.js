@@ -30,8 +30,8 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
+}
 
-/*
 var images;
 var values;
 
