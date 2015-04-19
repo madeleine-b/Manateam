@@ -10,8 +10,17 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
-
-if (localStorage.getItem("currentState") == "on") { 
+var images;
+chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
+	console.log("backgroundjs got message");
+	console.log(message);
+	console.log(sender);
+	if(message.method == 'getImages') {
+		images = $('img');
+		sendResponse(images);
+	}
+});
+/*if (localStorage.getItem("currentState") == "on") { 
 	console.log("background registers currentState on");
 	chrome.tabs.query({ url: "<all_urls>"}, function(tabs)
 	{
@@ -27,4 +36,4 @@ if (localStorage.getItem("currentState") == "on") {
 	    }
 	   });
 	});
-}
+}*/

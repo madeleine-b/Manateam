@@ -28,10 +28,24 @@ function init() {
 window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
-
 function handleClick(cb) {
   localStorage.setItem("currentState", (cb.checked ? "on" : "off"));
   console.log("currentState is now " + localStorage.getItem("currentState"));
+
+  if (cb.checked) {
+    console.log("checked");
+    /*chrome.runtime.sendMessage({method:'getImages'}, function(response){
+      console.log("got response");
+      fixPicsInDoc(response);
+    });*/
+    console.log("changing colors in images on page?");
+    chrome.runtime.sendMessage({method:'getImages'}, function(response){
+      console.log("response=");
+      console.log(response);
+      fixPicsInDoc(response['title']);
+    });
+    //fixPicsInDoc(images);
+  }
 }
 
 function outputUpdate(val, num) { 
