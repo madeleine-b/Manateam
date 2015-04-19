@@ -3,10 +3,12 @@ function init() {
   if(cb){
     cb.addEventListener("click", function() {handleClick(cb);});
   } //checkbox
+
   colorIn = document.getElementById("ColorIn");
   colorInRange = document.getElementById("ColorInRange");
   colorOut = document.getElementById("ColorOut");
   colorOutRange = document.getElementById("ColorOutRange");
+
   if(colorIn){
     colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
   }
@@ -15,13 +17,14 @@ function init() {
   }
   if(colorOut){
     colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});}
-
+  }
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
   }
   if(colorblind){
-  colorblind.addEventListener('input',function() {outputUpdate(0,5);});}
+    colorblind.addEventListener('input',function() {outputUpdate(0,5);});
   }
+  
   if (localStorage.getItem("currentState")!="undefined") {
     if(cb){
       cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
