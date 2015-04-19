@@ -2,10 +2,10 @@ function init() {
   var cb = document.getElementById("cb");
   cb.addEventListener("click", function() {handleClick(cb);}); //checkbox 
 
-  var colorIn = document.getElementById("ColorIn");
-  var colorInRange = document.getElementById("ColorInRange");
-  var colorOut = document.getElementById("ColorOut");
-  var colorOutRange = document.getElementById("ColorOutRange");
+  colorIn = document.getElementById("ColorIn");
+  colorInRange = document.getElementById("ColorInRange");
+  colorOut = document.getElementById("ColorOut");
+  colorOutRange = document.getElementById("ColorOutRange");
 
   colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
   colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
@@ -29,22 +29,26 @@ window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
 function handleClick(cb) {
-  localStorage.setItem("currentState", (cb.checked ? "on" : "off"));
+  localStorage.setItem("currentState", (cb.checked==true ? "on" : "off"));
+
   console.log("currentState is now " + localStorage.getItem("currentState"));
 
   if (cb.checked) {
     console.log("checked");
-    /*chrome.runtime.sendMessage({method:'getImages'}, function(response){
-      console.log("got response");
-      fixPicsInDoc(response);
-    });*/
-    console.log("changing colors in images on page?");
-    chrome.runtime.sendMessage({'method':'getImages'}, function(response){
-      console.log("response=");
-      console.log(response);
-      fixPicsInDoc(response.title);
-    });
+
+    values = {'doFxn':true, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
+    chrome.runtime.sendMessage(
+      {'method':'getValues', 'values':values},
+      function(response){
+        console.log("response=");
+        console.log(response);
+      }
+    );
     //fixPicsInDoc(images);
+  } else {
+    console.log("unchecked");
+    values = {'doFxn':false, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
+
   }
 }
 

@@ -8,8 +8,8 @@
   "background": {
     "scripts": [
       "jquery-2.1.3.js", 
-      "background.js",
-      "toggle.js"]
+      "toggle.js",
+      "background.js"]
   },
 
  "options_page": "options.html",

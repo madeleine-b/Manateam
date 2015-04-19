@@ -10,16 +10,18 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
-var images;
+var values;
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
 	console.log(message);
+	console.log(typeof message);
 	console.log(sender);
-	if(message['method'] === 'sendImages') {
-		images = message['title'];
-		sendResponse("Images received");
-	} else if (message['method'] === 'getImages') {
-		sendResponse(images);
+
+	if(message['method'] == 'getValues') {
+		values = message['values'];
+		sendResponse("Values received");
+	} else if (message['method'] == 'sendValues') {
+		sendResponse(values);
 	}
 });
 /*if (localStorage.getItem("currentState") == "on") { 
