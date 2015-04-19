@@ -3,10 +3,13 @@ function init() {
   if(cb){
     cb.addEventListener("click", function() {handleClick(cb);});
   } //checkbox
+
   colorIn = document.getElementById("ColorIn");
   colorInRange = document.getElementById("ColorInRange");
   colorOut = document.getElementById("ColorOut");
   colorOutRange = document.getElementById("ColorOutRange");
+  colorblind = document.getElementById("colorblind");
+
   if(colorIn){
     colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
   }
@@ -14,16 +17,28 @@ function init() {
     colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   }
   if(colorOut){
-    colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});}
-
+    colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
+  }
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
   }
+
   if(cb){
       chrome.storage.local.get("currentState", function(i){
         cb.checked = (i["currentState"]=="on" ? true : false);
         console.log("setting cb to "+cb.checked);
       });
+
+  if(colorblind){
+    colorblind.addEventListener('input',function() {outputUpdate(0,5);});
+  }
+
+  if (localStorage.getItem("currentState")!="undefined") {
+    if(cb){
+      cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
+    }
+  } else {
+      cb.checked = false;
   }
   if(colorIn){
       var tempVal;
@@ -100,6 +115,10 @@ function outputUpdate(val, num) {
       chrome.storage.local.get("tolOut", function(items) {
         console.log(items["tolOut"]);
       });
+      break;
+    case 5:
+      localStorage.setItem("gColorIn","469648");
+      localStorage.setItem("gColorOut","69C1B0");
       break;
     default:
       console.log("Huh, weirdness with popup and local storage");
