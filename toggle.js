@@ -22,6 +22,14 @@ function init() {
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
   }
+
+  if(cb){
+      chrome.storage.local.get("currentState", function(i){
+        cb.checked = (i["currentState"]=="on" ? true : false);
+        console.log("setting cb to "+cb.checked);
+      });
+  }
+
   if(colorblind){
     colorblind.addEventListener('input',function() {outputUpdate(0,5);});
   }
@@ -34,16 +42,28 @@ function init() {
       cb.checked = false;
   }
   if(colorIn){
-      colorIn.value = (typeof localStorage.getItem("gColorIn")!="undefined" ? localStorage.getItem("gColorIn") : "#ff0000");
+      chrome.storage.local.get("gColorIn", function(items){
+        var tempVal=items["gColorIn"];
+        colorIn.value = (isExisting(tempVal) ? tempVal : "#BE2A3A");
+      });
   }
   if(colorInRange){
-    colorInRange.value = (typeof localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "100");
+    chrome.storage.local.get("tolIn", function(items){
+      var tempVal=parseInt(items["tolIn"]);
+      colorInRange.value = (isExisting(tempVal) ? tempVal : 100);
+    });
   }
   if(colorOut){
-    colorOut.value = (typeof localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#ff0000");
+    chrome.storage.local.get("gColorOut", function(items){
+      var tempVal=items["gColorOut"];
+      colorOut.value = (isExisting(tempVal) ? tempVal : "#6f47e1");
+    });
   }
   if(colorOutRange){
-    colorOutRange.value = (typeof localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "100");
+    chrome.storage.local.get("tolOut", function(items){
+      var tempVal=parseInt(items["tolOut"]);
+      colorOutRange.value = (isExisting(tempVal) ? tempVal : 100);
+    });
   }
 }
 
@@ -51,11 +71,11 @@ window.addEventListener('DOMContentLoaded', function() {init();});
 
 //Toggles colormanip on the page when button clicked
 function handleClick(cb) {
-  localStorage.setItem("currentState", (cb.checked==true ? "on" : "off"));
-  console.log("currentState is now " + localStorage.getItem("currentState"));
-  if (cb.checked) {
+  chrome.storage.local.set({"currentState":(cb.checked==true ? "on" : "off")});
+  chrome.storage.local.get("currentState", function(items){console.log("currentState is now " + items);});
+
+  /*if (cb.checked) {
     console.log("checked");
-    values = {'doFxn':true, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
     chrome.runtime.sendMessage(
       {'method':'getValues', 'values':values},
       function(response){
@@ -66,24 +86,35 @@ function handleClick(cb) {
   //fixPicsInDoc(images);
   } else {
     console.log("unchecked");
-    values = {'doFxn':false, 'colorIn': colorIn,'colorInRange':colorInRange, 'colorOut':colorOut, 'colorOutRange':colorOutRange};
-  }
+  }*/
 }
 
 function outputUpdate(val, num) {
-  console.log(val);
+  //console.log(val);
   switch(num) {
     case 1:
-      localStorage.setItem("gColorIn",val);
+      chrome.storage.local.set({"gColorIn":val});
+      chrome.storage.local.get("gColorIn", function(items) {
+        console.log(items["gColorIn"]);
+      });
       break;
     case 2:
-      localStorage.setItem("tolIn",val);
+      chrome.storage.local.set({"tolIn":val});
+      chrome.storage.local.get("tolIn", function(items) {
+        console.log(items["tolIn"]);
+      });
       break;
     case 3:
-      localStorage.setItem("gColorOut",val);
+      chrome.storage.local.set({"gColorOut":val});
+      chrome.storage.local.get("gColorOut", function(items) {
+        console.log(items["gColorOut"]);
+      });
       break;
     case 4:
-      localStorage.setItem("tolOut", val);
+      chrome.storage.local.set({"tolOut":val});
+      chrome.storage.local.get("tolOut", function(items) {
+        console.log(items["tolOut"]);
+      });
       break;
     case 5:
       localStorage.setItem("gColorIn","469648");

@@ -31,20 +31,63 @@ function fixPicsInDoc() {
 	var images = $('img');
 	console.log("fixPics executes on "+images.length+" images");
 	
-	var colorToReplace = (localStorage.getItem("gColorIn")!='undefined' ? localStorage.getItem("gColorIn") : "#BE2A3A");
-	var replacementColor = (localStorage.getItem("gColorOut")!="undefined" ? localStorage.getItem("gColorOut") : "#6f47e1");
-	G_COLOR_IN_MARGIN = (localStorage.getItem("tolIn")!="undefined" ? localStorage.getItem("tolIn") : "150"); //100 to 200
-	G_COLOR_OUT_MARGIN = (localStorage.getItem("tolOut")!="undefined" ? localStorage.getItem("tolOut") : "150"); //100 to 200
+	var colorToReplace;
+	var replacementColor;
+	toReplaceRGB = "";
+	replacementRGB = "";
 
-	console.log("HIHIHI"+localStorage.getItem("gColorIn"));
+	chrome.storage.local.get("gColorIn", function(item) {
+		if (isExisting(item["gColorIn"])) {
+			colorToReplace = item["gColorIn"];
+			console.log(colorToReplace+"=ctr");
+		} else {
+			colorToReplace = "#BE2A3A";
+		}
+	});
 	
-	var colorToReplace = "#BE2A3A";
+	chrome.storage.local.get("gColorOut", function(item) {
+		if (isExisting(item["gColorOut"])) {
+			replacementColor = item["gColorOut"];
+		} else {
+			replacementColor = "#6f47e1";
+		}
+	});
+
+	G_COLOR_IN_MARGIN = 0;
+	G_COLOR_OUT_MARGIN = 0;
+	chrome.storage.local.get("tolIn", function(item) {
+		if (isExisting(item["tolIn"])) {
+			G_COLOR_IN_MARGIN = parseInt(item["tolIn"]);
+		} else {
+			G_COLOR_IN_MARGIN = 150;
+		}
+	}); //100 to 200
+	chrome.storage.local.get("tolOut", function(item) {
+		if (isExisting(item["tolOut"])) {
+			G_COLOR_OUT_MARGIN = parseInt(item["tolOut"]);
+		} else {
+			G_COLOR_OUT_MARGIN = 150;
+		}
+	}); //100 to 200
+
+	
+	/*var colorToReplace = "#BE2A3A";
+	var replacementColor = "#6f47e1";
+	G_COLOR_IN_MARGIN = "150"; //100 to 200
+	G_COLOR_OUT_MARGIN = "150"; //100 to 200*/
+
+	//console.log("HIHIHI"+chrome.storage.local.get("gColorIn", function(i){}));
+	
+	/*var colorToReplace = "#BE2A3A";
 	var replacementColor = 	"#6f47e1";
 	G_COLOR_IN_MARGIN = 150;
-	G_COLOR_OUT_MARGIN = 150;
+	G_COLOR_OUT_MARGIN = 150;*/
 
-	toReplaceRGB = hexToRGB(colorToReplace);
-	replacementRGB = hexToRGB(replacementColor);
+	setTimeout(function(){
+		toReplaceRGB = hexToRGB(colorToReplace);
+		replacementRGB = hexToRGB(replacementColor);
+	}, 100);
+	
 
 	function hexToRGB(h) {
 		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
@@ -53,7 +96,7 @@ function fixPicsInDoc() {
 	function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
 	function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
 	function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7) : h;}
 
 	for (var i = 0; i < images.length; i++) {
 		colorReplace(images[i]);
@@ -94,6 +137,10 @@ function magnitude(data, i, toReplaceRGB) {
 	var g = data[i+1] - toReplaceRGB.g;
 	var b = data[i+2] - toReplaceRGB.b;
 	return Math.sqrt(r*r+g*g+b*b);
+}
+
+function isExisting(thing) {
+  return thing!="undefined" && thing!="null" && ((typeof thing)!="undefined") && ((typeof thing)!=undefined && thing!=null);
 }
 
 function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {

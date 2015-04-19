@@ -4,13 +4,15 @@ console.log("reaching content script");
 var DOMImages = $("img").toArray();
 console.log(DOMImages);
 
-chrome.runtime.sendMessage({'method':'sendValues'},
+fixPicsInDoc();
+
+/*chrome.runtime.sendMessage({'method':'sendValues'},
 	function (response) {
 		console.log(response);
 		console.log("gonna edit images with values received. tho jk bc localstorage?");
 		fixPicsInDoc();
 	}
-);
+);*/
 
 // chrome.browserAction.onClicked.addListener(function(tab) {
 // alert("line 5");
