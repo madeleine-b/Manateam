@@ -16,7 +16,7 @@ function init() {
     colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
   }
   if(colorOut){
-    colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});}
+    colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
   }
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
@@ -24,7 +24,7 @@ function init() {
   if(colorblind){
     colorblind.addEventListener('input',function() {outputUpdate(0,5);});
   }
-  
+
   if (localStorage.getItem("currentState")!="undefined") {
     if(cb){
       cb.checked = (localStorage.getItem("currentState")=="on" ? true : false);
