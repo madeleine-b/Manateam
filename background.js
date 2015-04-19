@@ -10,7 +10,6 @@ console.log("background running, currentState is "+localStorage.getItem("current
 // 	// replaceStyle()
 // }
 
-var images;
 var values;
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 	console.log("backgroundjs got message");
