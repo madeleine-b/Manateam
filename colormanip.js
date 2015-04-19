@@ -38,7 +38,7 @@ function getPosition(element) {
 }
 
 function fixPicsInDoc(images) {
-	
+	console.log("fixPics executes");
 	/*var colorToReplace = localStorage.getItem("gColorIn");
 	var replacementColor = localStorage.getItem("gColorOut");
 	G_COLOR_IN_MARGIN = localStorage.getItem("tolIn"); //100 to 200
