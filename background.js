@@ -2,7 +2,7 @@
 console.log("background running");
 
 if (localStorage.getItem("currentState") && localStorage.getItem("currentState") == "on") { 
-	$.getScript("imagemanip.js", function(){
+	$.getScript("colormanip.js", function(){
 		var images=$('img');
 		fixPicsInDoc(images);
 	});
