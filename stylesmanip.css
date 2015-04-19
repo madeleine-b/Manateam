@@ -1,5 +1,6 @@
 div {
 	text-align: center;
+    cursor: pointer;
     font-size: 50px;
     margin-bottom: 10px;
 }
@@ -9,31 +10,9 @@ div {
   }
 
  #div2 {
-    background: rgb(0,255,0);
+    background: rgb(0,255,0);;
  }
 
  #div3 {
-    background: rgb(0,0,255);
+    background: rgb(0,0,255);;
  }
-
- p {
-	text-align: center;
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: rgb(0,0,255);
-}
-
-h1 {
-	text-align: center;
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: rgb(0,0,255);
-}
-
-a {
-    text-align: center;
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: rgb(0,0,255);
-    color: blue;
-}
