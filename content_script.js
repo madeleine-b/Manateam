@@ -4,7 +4,8 @@ console.log("reaching content script");
 var DOMImages = $("img").toArray();
 console.log(DOMImages);
 
-fixPicsInDoc();
+$(document).ready(fixPicsInDoc);
+
 
 /*chrome.runtime.sendMessage({'method':'sendValues'},
 	function (response) {

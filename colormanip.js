@@ -2,9 +2,6 @@
 function createCanvas(img) {
     var canvas = document.createElement('canvas');
 
-    //canvas.width = img.width;
-    //canvas.height = img.height;
-
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
 
@@ -39,12 +36,11 @@ function fixPicsInDoc() {
 	chrome.storage.local.get("gColorIn", function(item) {
 		if (isExisting(item["gColorIn"])) {
 			colorToReplace = item["gColorIn"];
-			console.log(colorToReplace+"=ctr");
 		} else {
 			colorToReplace = "#BE2A3A";
 		}
 	});
-	
+
 	chrome.storage.local.get("gColorOut", function(item) {
 		if (isExisting(item["gColorOut"])) {
 			replacementColor = item["gColorOut"];
@@ -70,23 +66,23 @@ function fixPicsInDoc() {
 		}
 	}); //100 to 200
 
-	
-	/*var colorToReplace = "#BE2A3A";
+	console.log(colorToReplace+" = colorToReplace");
+	console.log(replacementColor+" = replacementColor");
+	console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
+	console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
+
+	var colorToReplace = "#BE2A3A";
 	var replacementColor = "#6f47e1";
 	G_COLOR_IN_MARGIN = "150"; //100 to 200
-	G_COLOR_OUT_MARGIN = "150"; //100 to 200*/
+	G_COLOR_OUT_MARGIN = "150"; //100 to 200
 
-	//console.log("HIHIHI"+chrome.storage.local.get("gColorIn", function(i){}));
-	
-	/*var colorToReplace = "#BE2A3A";
-	var replacementColor = 	"#6f47e1";
-	G_COLOR_IN_MARGIN = 150;
-	G_COLOR_OUT_MARGIN = 150;*/
+	toReplaceRGB = hexToRGB(colorToReplace);
+	replacementRGB = hexToRGB(replacementColor);
 
-	setTimeout(function(){
+	/*setTimeout(function(){
 		toReplaceRGB = hexToRGB(colorToReplace);
 		replacementRGB = hexToRGB(replacementColor);
-	}, 100);
+	}, 100);*/
 	
 
 	function hexToRGB(h) {
@@ -129,6 +125,9 @@ function colorReplace(img) {
 	img.parentNode.insertBefore(canvas, img.nextSibling);
 	img.parentNode.removeChild(img);
 
+	console.log("ctr ="+toReplaceRGB);
+	console.log("rc ="+replacementRGB);
+
 	console.log("image replacement success");
 }
 
@@ -147,5 +146,9 @@ function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	var distanceBetween = Math.sqrt(Math.pow(imageR-toReplace.r,2)+Math.pow(imageG-toReplace.g,2)+Math.pow(imageB-toReplace.b,2));
 	return distanceBetween<=varMargin;
 }
+
+/*setTimeout(function(){
+	fixPicsInDoc();
+}, 60);*/
 
 

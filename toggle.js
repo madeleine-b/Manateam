@@ -67,12 +67,16 @@ function init() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', function() {init();});
+window.addEventListener('DOMContentLoaded', function() {
+  init();
+  }
+);
 
 //Toggles colormanip on the page when button clicked
 function handleClick(cb) {
   chrome.storage.local.set({"currentState":(cb.checked==true ? "on" : "off")});
   chrome.storage.local.get("currentState", function(items){console.log("currentState is now " + items);});
+  //activateColorInTab();
 
   /*if (cb.checked) {
     console.log("checked");
@@ -89,8 +93,23 @@ function handleClick(cb) {
   }*/
 }
 
+function activateColorInTab() {
+  console.log("activateColorInTab called");
+  var query = { active: true, currentWindow: true };
+  //var currentTab;
+
+  chrome.tabs.query(query, function(tabs) {
+      console.log("executing color manip on "+tabs[0].id);
+      chrome.tabs.executescript(tabs[0].id, {code:"document.body.style.backgroundColor='red'"});
+    }
+  );
+
+  //currentTab = forumTabs[0];
+}
+
 function outputUpdate(val, num) {
-  //console.log(val);
+  //activateColorInTab();
+
   switch(num) {
     case 1:
       chrome.storage.local.set({"gColorIn":val});
@@ -124,15 +143,3 @@ function outputUpdate(val, num) {
       console.log("Huh, weirdness with popup and local storage");
   }
 }
-/*
-TODO: Also adjust contrast, vibracy, etc. to setting
-.saturate {-webkit-filter: saturate(3);}
-.grayscale {-webkit-filter: grayscale(100%);}
-.contrast {-webkit-filter: contrast(160%);}
-.brightness {-webkit-filter: brightness(0.25);}
-.blur {-webkit-filter: blur(3px);}
-.invert {-webkit-filter: invert(100%);}
-.sepia {-webkit-filter: sepia(100%);}
-.huerotate {-webkit-filter: hue-rotate(180deg);}
-.rss.opacity {-webkit-filter: opacity(50%);}
-*/
