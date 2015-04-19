@@ -28,6 +28,7 @@ function init() {
         cb.checked = (i["currentState"]=="on" ? true : false);
         console.log("setting cb to "+cb.checked);
       });
+  }
 
   if(colorblind){
     colorblind.addEventListener('input',function() {outputUpdate(0,5);});
@@ -41,24 +42,28 @@ function init() {
       cb.checked = false;
   }
   if(colorIn){
-      var tempVal;
-      chrome.storage.local.get("gColorIn", function(items){tempVal=items["gColorIn"];});
-      colorIn.value = ((typeof tempVal)!="undefined" ? tempVal : "#BE2A3A");
+      chrome.storage.local.get("gColorIn", function(items){
+        var tempVal=items["gColorIn"];
+        colorIn.value = (isExisting(tempVal) ? tempVal : "#BE2A3A");
+      });
   }
   if(colorInRange){
-    var tempVal;
-    chrome.storage.local.get("tolIn", function(items){tempVal=items["tolIn"];});
-    colorInRange.value = ((typeof tempVal)!="undefined" ? tempVal : "100");
+    chrome.storage.local.get("tolIn", function(items){
+      var tempVal=parseInt(items["tolIn"]);
+      colorInRange.value = (isExisting(tempVal) ? tempVal : 100);
+    });
   }
   if(colorOut){
-    var tempVal;
-    chrome.storage.local.get("gColorOut", function(items){tempVal=items["gColorOut"];});
-    colorOut.value = ((typeof tempVal)!="undefined" ? tempVal : "#6f47e1");
+    chrome.storage.local.get("gColorOut", function(items){
+      var tempVal=items["gColorOut"];
+      colorOut.value = (isExisting(tempVal) ? tempVal : "#6f47e1");
+    });
   }
   if(colorOutRange){
-    var tempVal;
-    chrome.storage.local.get("tolOut", function(items){tempVal=items["tolOut"];});
-    colorOutRange.value = ((typeof tempVal)!="undefined" ? tempVal : "100");
+    chrome.storage.local.get("tolOut", function(items){
+      var tempVal=parseInt(items["tolOut"]);
+      colorOutRange.value = (isExisting(tempVal) ? tempVal : 100);
+    });
   }
 }
 
