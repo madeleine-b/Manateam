@@ -66,18 +66,24 @@ function fixPicsInDoc() {
 		}
 	}); //100 to 200
 
+	var colorToReplace = "#7EFE91";
+	colorToReplace = "#FB708F";
+	colorToReplace = "#ff6500"; //coral
+	var replacementColor = "#F9FE32";
+	replacementColor = "#53FFAD";
+	replacementColor = "#AA0078"; //purple
+
 	console.log(colorToReplace+" = colorToReplace");
 	console.log(replacementColor+" = replacementColor");
 	console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
 	console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
 
-	var colorToReplace = "#BE2A3A";
-	var replacementColor = "#6f47e1";
-	G_COLOR_IN_MARGIN = "150"; //100 to 200
-	G_COLOR_OUT_MARGIN = "150"; //100 to 200
-
 	toReplaceRGB = hexToRGB(colorToReplace);
 	replacementRGB = hexToRGB(replacementColor);
+
+	//G_COLOR_IN_MARGIN = ""+minRGBBoundary(toReplaceRGB)*(150/100); //100 to 200
+	G_COLOR_IN_MARGIN = "100";
+	G_COLOR_OUT_MARGIN = "1"; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
 
 	/*setTimeout(function(){
 		toReplaceRGB = hexToRGB(colorToReplace);
@@ -107,13 +113,23 @@ function colorReplace(img) {
 	
 	context.drawImage(img, 0, 0);
 	var image = context.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
- 
+
 	for (var i = 0, n = image.data.length; i < n; i += 4) {
 		//3D RGB space mapping :)
 		if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
-			image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
-			image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
-			image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*(G_COLOR_OUT_MARGIN/magnitude(image.data, i, toReplaceRGB));
+			var originalVMag = magnitude(image.data, i, toReplaceRGB);
+			var scalingFactor = G_COLOR_OUT_MARGIN*originalVMag/G_COLOR_IN_MARGIN;
+			image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*scalingFactor;
+			image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*scalingFactor;
+			image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*scalingFactor;
+			
+			//put on whatever boundary it crosses, if it does
+			image.data[i] = (image.data[i] < 0) ? 0 : image.data[i];
+			image.data[i] = (image.data[i] > 255) ? 255 : image.data[i];
+			image.data[i+1] = (image.data[i+1] < 0) ? 0 : image.data[i+1];
+			image.data[i+1] = (image.data[i+1] > 255) ? 255 : image.data[i+1];
+			image.data[i+2] = (image.data[i+2] < 0) ? 0 : image.data[i+2];
+			image.data[i+2] = (image.data[i+2] > 255) ? 255 : image.data[i+2];
 		}
 		//i+3 is alpha channel for opacity
 	}
@@ -125,10 +141,15 @@ function colorReplace(img) {
 	img.parentNode.insertBefore(canvas, img.nextSibling);
 	img.parentNode.removeChild(img);
 
-	console.log("ctr ="+toReplaceRGB);
-	console.log("rc ="+replacementRGB);
+	console.log("color to replace ="+toReplaceRGB);
+	console.log("replacement color ="+replacementRGB);
 
 	console.log("image replacement success");
+}
+
+function minRGBBoundary(colorRGB) {
+	var nums = [255-colorRGB.r, 255-colorRGB.g, 255-colorRGB.b].filter(function(x){return x > 0;});
+	return Math.min.apply(Math, nums);
 }
 
 function magnitude(data, i, toReplaceRGB) {
