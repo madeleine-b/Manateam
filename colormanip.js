@@ -1,4 +1,4 @@
-
+//Helper function to create canvas for altered image
 function createCanvas(img) {
     var canvas = document.createElement('canvas');
 
@@ -13,6 +13,7 @@ function createCanvas(img) {
     return canvas;
 }
 
+//Returns a dictionary corresponding to the 'x' and 'y' coordinates of element
 function getPosition(element) {
     var xPosition = 0;
     var yPosition = 0;
@@ -24,14 +25,16 @@ function getPosition(element) {
     return { "x": xPosition, "y": yPosition };
 }
 
+//Goes through each <img> in document and "Color Schemes" it!
+//Uses colors and tolerances in Chrome local storage
 function fixPicsInDoc() {
 	var images = $('img');
-	console.log("fixPics executes on "+images.length+" images");
+	console.log("fixPics will execute on "+images.length+" images");
 	
 	var colorToReplace;
 	var replacementColor;
-	toReplaceRGB = "";
-	replacementRGB = "";
+	toReplaceRGB = {};
+	replacementRGB = {};
 	G_COLOR_IN_MARGIN = 0;
 	G_COLOR_OUT_MARGIN = 0;
 
@@ -42,6 +45,7 @@ function fixPicsInDoc() {
 		} else {
 			colorToReplace = "#ff6500"; //coral
 		}
+		toReplaceRGB = hexToRGB(colorToReplace);
 	});
 	chrome.storage.local.get("gColorOut", function(item) {
 		if (isExisting(item["gColorOut"])) {
@@ -49,35 +53,27 @@ function fixPicsInDoc() {
 		} else {
 			replacementColor = "#AA0078"; //purple
 		}
+		replacementRGB = hexToRGB(replacementColor);
 	});
 	chrome.storage.local.get("tolIn", function(item) {
 		if (isExisting(item["tolIn"])) {
 			G_COLOR_IN_MARGIN = parseInt(item["tolIn"]);
 		} else {
-			G_COLOR_IN_MARGIN = 100;
+			G_COLOR_IN_MARGIN = 125;
 		}
-	}); //100 to 200
+	}); //values between 95 to 200 (as specified in popup.html)
 	chrome.storage.local.get("tolOut", function(item) {
 		if (isExisting(item["tolOut"])) {
 			G_COLOR_OUT_MARGIN = parseInt(item["tolOut"]);
 		} else {
 			G_COLOR_OUT_MARGIN = 1; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
 		}
-	}); //0.8 to 3
 
-	// console.log(colorToReplace+" = colorToReplace");
-	// console.log(replacementColor+" = replacementColor");
-	// console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
-	// console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
-
-	setTimeout(function(){
-		console.log(colorToReplace+" = colorToReplace");
-		console.log(replacementColor+" = replacementColor");
-		console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
-		console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
-		toReplaceRGB = hexToRGB(colorToReplace);
-		replacementRGB = hexToRGB(replacementColor);
-	}, 100);
+		//hopefully other values have been retrieved by now too
+		for (var i = 0; i < images.length; i++) {
+			colorReplace(images[i]);
+		}
+	}); //values between 0.8 to 3 (as specified in popup.html)
 
 	function hexToRGB(h) {
 		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
@@ -88,11 +84,9 @@ function fixPicsInDoc() {
 	function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
 	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7) : h;}
 
-	for (var i = 0; i < images.length; i++) {
-		colorReplace(images[i]);
-	}
 }
 
+//Given a single image, iterates pixel-by-pixel to alter data and replace image with the edited pic
 function colorReplace(img) {
 	var canvas = createCanvas(img); //creates canvas with same *dimensions* as img
 	var context = canvas.getContext('2d');
@@ -135,11 +129,8 @@ function colorReplace(img) {
 	console.log("image replacement success");
 }
 
-function minRGBBoundary(colorRGB) {
-	var nums = [255-colorRGB.r, 255-colorRGB.g, 255-colorRGB.b].filter(function(x){return x > 0;});
-	return Math.min.apply(Math, nums);
-}
-
+//Returns the magnitude of the vector between
+//	(toReplace.r, toReplace.g, toReplace.b) and (data[i], data[i+1], data[i+2]) in 3D RGB space
 function magnitude(data, i, toReplaceRGB) {
 	var r = data[i] - toReplaceRGB.r;
 	var g = data[i+1] - toReplaceRGB.g;
@@ -147,10 +138,13 @@ function magnitude(data, i, toReplaceRGB) {
 	return Math.sqrt(r*r+g*g+b*b);
 }
 
+//Returns a boolean corresponding to whether 'thing' most likely has a defined value
 function isExisting(thing) {
   return thing!="undefined" && thing!="null" && ((typeof thing)!="undefined") && ((typeof thing)!=undefined && thing!=null);
 }
 
+//Returns a boolean about whether the color (imageR, imageG, imageB) is within varMargin of (toReplace.r, toReplace.g, toReplace.b)
+//thinking in terms of the 3D RGB space
 function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	var distanceBetween = Math.sqrt(Math.pow(imageR-toReplace.r,2)+Math.pow(imageG-toReplace.g,2)+Math.pow(imageB-toReplace.b,2));
 	return distanceBetween<=varMargin;

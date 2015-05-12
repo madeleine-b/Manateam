@@ -1,8 +1,18 @@
+//red-green colorblind defaults
 RGInDefualt = "#469648";
 RGOutDefault = "#69C1B0";
-regInDefault = "#BE2A3A";
-regOutDefault = "#6f47e1";
 
+//non-colorblind defaults
+regInDefault = "#BE2A3A"; //dark raspberry red
+regOutDefault = "#6f47e1"; //bright purple
+
+window.addEventListener('DOMContentLoaded', function() {
+  init();
+  }
+);
+
+//initializes HTML components in the ColorSchemer popup,
+//either to values received from Chrome local storage or to defaults
 function init() {
   cb = document.getElementById("cb");
   colorIn = document.getElementById("ColorIn");
@@ -36,7 +46,6 @@ function init() {
     colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
     chrome.storage.local.get("gColorOut", function(items){
       var tempVal=items["gColorOut"];
-      console.log("gColorOut = "+tempVal+"!!!!");
       colorOut.value = (isExisting(tempVal) ? tempVal : regOutDefault);
     });
   }
@@ -52,23 +61,16 @@ function init() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  init();
-  }
-);
-
-//Toggles colormanip on the page when button clicked
+//Called when checkbox for "Color Schemed" is clicked
+//Changes value of "currentState" in Chrome local storage
 function handleClick() {
-  chrome.storage.local.set({"currentState":(cb.checked==true ? "on" : "off")}, function() {
-    console.log("inside set callback");
-    chrome.storage.local.get("currentState", function(items){
-      console.log("inside get callback");
-      console.log("currentState in local storage is " + items["currentState"]);
-    });
-  });
-
+  var value = (cb.checked==true) ? "on" : "off";
+  console.log("checkbox now "+value);
+  chrome.storage.local.set({"currentState":value});
 }
 
+//Called when either of the color swatches or tolerances is changed or when "colorblind" button pressed
+//Updates values in Chrome local storage
 function outputUpdate(val, num) {
   switch(num) {
     case 1:
@@ -88,9 +90,12 @@ function outputUpdate(val, num) {
       console.log("tolerance out = "+val);
       break;
     case 5: //colorblind default setting
-      chrome.storage.local.set({"gColorIn":RGInDefualt});
+      /*chrome.storage.local.set({"gColorIn":RGInDefualt});
       chrome.storage.local.set({"gColorOut":RGOutDefault});
+      colorIn.value = RGInDefualt;
+      colorOut.value = RGOutDefault;*/
       console.log("colorblindness setting pressed");
+      console.log("we are temporarily ignoring the request for testing ease!")
       break;
     default:
       console.log("Huh, weirdness with popup and local storage");
