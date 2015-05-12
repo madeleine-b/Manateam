@@ -64,24 +64,20 @@ function fixPicsInDoc() {
 		} else {
 			G_COLOR_OUT_MARGIN = 150;
 		}
-	}); //100 to 200
+	}); //0.8 to 3
 
-	var colorToReplace = "#7EFE91";
-	colorToReplace = "#FB708F";
 	colorToReplace = "#ff6500"; //coral
-	var replacementColor = "#F9FE32";
-	replacementColor = "#53FFAD";
 	replacementColor = "#AA0078"; //purple
 
-	console.log(colorToReplace+" = colorToReplace");
-	console.log(replacementColor+" = replacementColor");
-	console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
-	console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
+	// console.log(colorToReplace+" = colorToReplace");
+	// console.log(replacementColor+" = replacementColor");
+	// console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
+	// console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
 
+	//global variables
 	toReplaceRGB = hexToRGB(colorToReplace);
 	replacementRGB = hexToRGB(replacementColor);
 
-	//G_COLOR_IN_MARGIN = ""+minRGBBoundary(toReplaceRGB)*(150/100); //100 to 200
 	G_COLOR_IN_MARGIN = "100";
 	G_COLOR_OUT_MARGIN = "1"; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
 
@@ -89,7 +85,6 @@ function fixPicsInDoc() {
 		toReplaceRGB = hexToRGB(colorToReplace);
 		replacementRGB = hexToRGB(replacementColor);
 	}, 100);*/
-	
 
 	function hexToRGB(h) {
 		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
@@ -141,8 +136,8 @@ function colorReplace(img) {
 	img.parentNode.insertBefore(canvas, img.nextSibling);
 	img.parentNode.removeChild(img);
 
-	console.log("color to replace ="+toReplaceRGB);
-	console.log("replacement color ="+replacementRGB);
+	//console.log("color to replace = ("+toReplaceRGB.r+", "+toReplaceRGB.g+", "+toReplaceRGB.b+")");
+	//console.log("replacement color =("+replacementRGB.r+", "+replacementRGB.g+", "+replacementRGB.b+")");
 
 	console.log("image replacement success");
 }
@@ -168,8 +163,5 @@ function colorWithinRange(varMargin, imageR, imageG, imageB, toReplace) {
 	return distanceBetween<=varMargin;
 }
 
-/*setTimeout(function(){
-	fixPicsInDoc();
-}, 60);*/
 
 
