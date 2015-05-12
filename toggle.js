@@ -1,5 +1,7 @@
 RGInDefualt = "#469648";
 RGOutDefault = "#69C1B0";
+regInDefault = "#BE2A3A";
+regOutDefault = "#6f47e1";
 
 function init() {
   cb = document.getElementById("cb");
@@ -20,7 +22,7 @@ function init() {
     colorIn.addEventListener("input",function() {outputUpdate(colorIn.value,1);});
     chrome.storage.local.get("gColorIn", function(items){
         var tempVal=items["gColorIn"];
-        colorIn.value = (isExisting(tempVal) ? tempVal : "#BE2A3A");
+        colorIn.value = (isExisting(tempVal) ? tempVal : regInDefault);
     });
   }
   if(colorInRange){
@@ -34,18 +36,19 @@ function init() {
     colorOut.addEventListener('input',function() {outputUpdate(colorOut.value,3);});
     chrome.storage.local.get("gColorOut", function(items){
       var tempVal=items["gColorOut"];
-      colorOut.value = (isExisting(tempVal) ? tempVal : "#6f47e1");
+      console.log("gColorOut = "+tempVal+"!!!!");
+      colorOut.value = (isExisting(tempVal) ? tempVal : regOutDefault);
     });
   }
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
     chrome.storage.local.get("tolOut", function(items){
       var tempVal=parseInt(items["tolOut"]);
-      colorOutRange.value = (isExisting(tempVal) ? tempVal : 100);
+      colorOutRange.value = (isExisting(tempVal) ? tempVal : 1);
     });
   }
   if(colorblind){
-    colorblind.addEventListener('input',function() {outputUpdate(0,5);});
+    colorblind.addEventListener('click',function() {outputUpdate(0,5);});
   }
 }
 
@@ -70,19 +73,24 @@ function outputUpdate(val, num) {
   switch(num) {
     case 1:
       chrome.storage.local.set({"gColorIn":val});
+      console.log("color in = "+val);
       break;
     case 2:
       chrome.storage.local.set({"tolIn":val});
+      console.log("tolerance in = "+val);
       break;
     case 3:
       chrome.storage.local.set({"gColorOut":val});
+      console.log("color out = "+val);
       break;
     case 4:
       chrome.storage.local.set({"tolOut":val});
+      console.log("tolerance out = "+val);
       break;
     case 5: //colorblind default setting
       chrome.storage.local.set({"gColorIn":RGInDefualt});
       chrome.storage.local.set({"gColorOut":RGOutDefault});
+      console.log("colorblindness setting pressed");
       break;
     default:
       console.log("Huh, weirdness with popup and local storage");

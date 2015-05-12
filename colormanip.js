@@ -32,59 +32,52 @@ function fixPicsInDoc() {
 	var replacementColor;
 	toReplaceRGB = "";
 	replacementRGB = "";
+	G_COLOR_IN_MARGIN = 0;
+	G_COLOR_OUT_MARGIN = 0;
 
+	//getting variables values from Chrome local storage or setting defaults
 	chrome.storage.local.get("gColorIn", function(item) {
 		if (isExisting(item["gColorIn"])) {
 			colorToReplace = item["gColorIn"];
 		} else {
-			colorToReplace = "#BE2A3A";
+			colorToReplace = "#ff6500"; //coral
 		}
 	});
-
 	chrome.storage.local.get("gColorOut", function(item) {
 		if (isExisting(item["gColorOut"])) {
 			replacementColor = item["gColorOut"];
 		} else {
-			replacementColor = "#6f47e1";
+			replacementColor = "#AA0078"; //purple
 		}
 	});
-
-	G_COLOR_IN_MARGIN = 0;
-	G_COLOR_OUT_MARGIN = 0;
 	chrome.storage.local.get("tolIn", function(item) {
 		if (isExisting(item["tolIn"])) {
 			G_COLOR_IN_MARGIN = parseInt(item["tolIn"]);
 		} else {
-			G_COLOR_IN_MARGIN = 150;
+			G_COLOR_IN_MARGIN = 100;
 		}
 	}); //100 to 200
 	chrome.storage.local.get("tolOut", function(item) {
 		if (isExisting(item["tolOut"])) {
 			G_COLOR_OUT_MARGIN = parseInt(item["tolOut"]);
 		} else {
-			G_COLOR_OUT_MARGIN = 150;
+			G_COLOR_OUT_MARGIN = 1; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
 		}
 	}); //0.8 to 3
-
-	colorToReplace = "#ff6500"; //coral
-	replacementColor = "#AA0078"; //purple
 
 	// console.log(colorToReplace+" = colorToReplace");
 	// console.log(replacementColor+" = replacementColor");
 	// console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
 	// console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
 
-	//global variables
-	toReplaceRGB = hexToRGB(colorToReplace);
-	replacementRGB = hexToRGB(replacementColor);
-
-	G_COLOR_IN_MARGIN = "100";
-	G_COLOR_OUT_MARGIN = "1"; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
-
-	/*setTimeout(function(){
+	setTimeout(function(){
+		console.log(colorToReplace+" = colorToReplace");
+		console.log(replacementColor+" = replacementColor");
+		console.log(G_COLOR_IN_MARGIN+" G_COLOR_IN_MARGIN");
+		console.log(G_COLOR_OUT_MARGIN+" G_COLOR_OUT_MARGIN");
 		toReplaceRGB = hexToRGB(colorToReplace);
 		replacementRGB = hexToRGB(replacementColor);
-	}, 100);*/
+	}, 100);
 
 	function hexToRGB(h) {
 		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
