@@ -94,39 +94,38 @@ function colorReplace(img) {
 	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
 	
 	context.drawImage(img, 0, 0);
-	var image = context.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
-
-	for (var i = 0, n = image.data.length; i < n; i += 4) {
-		//3D RGB space mapping :)
-		if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
-			var originalVMag = magnitude(image.data, i, toReplaceRGB);
-			var scalingFactor = G_COLOR_OUT_MARGIN*originalVMag/G_COLOR_IN_MARGIN;
-			image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*scalingFactor;
-			image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*scalingFactor;
-			image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*scalingFactor;
-			
-			//put on whatever boundary it crosses, if it does
-			image.data[i] = (image.data[i] < 0) ? 0 : image.data[i];
-			image.data[i] = (image.data[i] > 255) ? 255 : image.data[i];
-			image.data[i+1] = (image.data[i+1] < 0) ? 0 : image.data[i+1];
-			image.data[i+1] = (image.data[i+1] > 255) ? 255 : image.data[i+1];
-			image.data[i+2] = (image.data[i+2] < 0) ? 0 : image.data[i+2];
-			image.data[i+2] = (image.data[i+2] > 255) ? 255 : image.data[i+2];
+	try {
+		var image = context.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
+		for (var i = 0, n = image.data.length; i < n; i += 4) {
+			//3D RGB space mapping :)
+			if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
+				var originalVMag = magnitude(image.data, i, toReplaceRGB);
+				var scalingFactor = G_COLOR_OUT_MARGIN*originalVMag/G_COLOR_IN_MARGIN;
+				image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*scalingFactor;
+				image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*scalingFactor;
+				image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*scalingFactor;
+				
+				//put on whatever boundary it crosses, if it does
+				image.data[i] = (image.data[i] < 0) ? 0 : image.data[i];
+				image.data[i] = (image.data[i] > 255) ? 255 : image.data[i];
+				image.data[i+1] = (image.data[i+1] < 0) ? 0 : image.data[i+1];
+				image.data[i+1] = (image.data[i+1] > 255) ? 255 : image.data[i+1];
+				image.data[i+2] = (image.data[i+2] < 0) ? 0 : image.data[i+2];
+				image.data[i+2] = (image.data[i+2] > 255) ? 255 : image.data[i+2];
+			}
+			//i+3 is alpha channel for opacity
 		}
-		//i+3 is alpha channel for opacity
+
+		context.putImageData(image, 0, 0);
+		canvas.style.width = img.width+"px";
+		canvas.style.height = img.height+"px";
+
+		img.parentNode.insertBefore(canvas, img.nextSibling);
+		img.parentNode.removeChild(img);
+		console.log("image replacement success");
+	} catch (error) {
+		console.log("\"security\" error ya know");
 	}
-
-	context.putImageData(image, 0, 0);
-	canvas.style.width = img.width+"px";
-	canvas.style.height = img.height+"px";
-
-	img.parentNode.insertBefore(canvas, img.nextSibling);
-	img.parentNode.removeChild(img);
-
-	//console.log("color to replace = ("+toReplaceRGB.r+", "+toReplaceRGB.g+", "+toReplaceRGB.b+")");
-	//console.log("replacement color =("+replacementRGB.r+", "+replacementRGB.g+", "+replacementRGB.b+")");
-
-	console.log("image replacement success");
 }
 
 //Returns the magnitude of the vector between
