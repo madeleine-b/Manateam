@@ -42,31 +42,36 @@ function fixPicsInDoc() {
 	chrome.storage.local.get("gColorIn", function(item) {
 		if (isExisting(item["gColorIn"])) {
 			colorToReplace = item["gColorIn"];
+			//console.log("Old value found for colorToReplace is "+colorToReplace);
 		} else {
 			colorToReplace = "#ff6500"; //coral
+			//console.log("No old value found for colorToReplace so we set to "+colorToReplace);
 		}
 		toReplaceRGB = hexToRGB(colorToReplace);
 	});
 	chrome.storage.local.get("gColorOut", function(item) {
 		if (isExisting(item["gColorOut"])) {
 			replacementColor = item["gColorOut"];
+			//console.log("Old value found for replacementColor is "+replacementColor);
 		} else {
 			replacementColor = "#AA0078"; //purple
+			//console.log("No old value found for replacementColor so we set to "+replacementColor);
 		}
 		replacementRGB = hexToRGB(replacementColor);
 	});
 	chrome.storage.local.get("tolIn", function(item) {
 		if (isExisting(item["tolIn"])) {
-			G_COLOR_IN_MARGIN = parseInt(item["tolIn"]);
+			G_COLOR_IN_MARGIN = item["tolIn"];
 		} else {
 			G_COLOR_IN_MARGIN = 125;
 		}
 	}); //values between 95 to 200 (as specified in popup.html)
 	chrome.storage.local.get("tolOut", function(item) {
 		if (isExisting(item["tolOut"])) {
-			G_COLOR_OUT_MARGIN = parseInt(item["tolOut"]);
+			G_COLOR_OUT_MARGIN = item["tolOut"];
 		} else {
 			G_COLOR_OUT_MARGIN = 1; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
+			//console.log("No old value found for output tolerance so we set to 1");
 		}
 
 		//hopefully other values have been retrieved by now too

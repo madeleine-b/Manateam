@@ -38,7 +38,7 @@ function init() {
   if(colorInRange){
     colorInRange.addEventListener("input",function() {outputUpdate(colorInRange.value,2);});
     chrome.storage.local.get("tolIn", function(items){
-      var tempVal=parseInt(items["tolIn"]);
+      var tempVal=items["tolIn"];
       colorInRange.value = (isExisting(tempVal) ? tempVal : 100);
     });
   }
@@ -52,7 +52,7 @@ function init() {
   if(colorOutRange){
     colorOutRange.addEventListener('input',function() {outputUpdate(colorOutRange.value,4);});
     chrome.storage.local.get("tolOut", function(items){
-      var tempVal=parseInt(items["tolOut"]);
+      var tempVal=items["tolOut"];
       colorOutRange.value = (isExisting(tempVal) ? tempVal : 1);
     });
   }
