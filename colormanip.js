@@ -28,8 +28,8 @@ function getPosition(element) {
 //Goes through each <img> in document and "Color Schemes" it!
 //Uses colors and tolerances in Chrome local storage
 function fixPicsInDoc() {
-	var images = $('img');
-	console.log("fixPics will execute on "+images.length+" images");
+	originals = $('img'); 
+	console.log("fixPics will execute on "+originals.length+" images");
 	
 	var colorToReplace;
 	var replacementColor;
@@ -73,42 +73,40 @@ function fixPicsInDoc() {
 			G_COLOR_OUT_MARGIN = 1; //between 0.9 and 3 seems best. don't go beyond 1 if you want only shades of the replacementColor
 			//console.log("No old value found for output tolerance so we set to 1");
 		}
-
 		//hopefully other values have been retrieved by now too
-		for (var i = 0; i < images.length; i++) {
-			colorReplace(images[i]);
+		for (var i = 0; i < originals.length; i++) {
+			colorReplace(originals[i], toReplaceRGB, replacementRGB, G_COLOR_IN_MARGIN, G_COLOR_OUT_MARGIN);
 		}
 	}); //values between 0.8 to 3 (as specified in popup.html)
 
-	function hexToRGB(h) {
-		var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
-		return rgb;
-	}
-	function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-	function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-	function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-	function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7) : h;}
-
 }
 
+function hexToRGB(h) {
+	var rgb = {"r" : hexToR(h), "g" : hexToG(h), "b" : hexToB(h)};
+	return rgb;
+}
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7) : h;}
+
+
 //Given a single image, iterates pixel-by-pixel to alter data and replace image with the edited pic
-function colorReplace(img) {
+function colorReplace(img, toReplaceRGB_par, replacementRGB_par, in_margin, out_margin) {
 	var canvas = createCanvas(img); //creates canvas with same *dimensions* as img
 	var context = canvas.getContext('2d');
-
-	//var imageX = getAbsPosition(img)[1], imageY = getAbsPosition(img)[0];
 	
 	context.drawImage(img, 0, 0);
 	try {
 		var image = context.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
 		for (var i = 0, n = image.data.length; i < n; i += 4) {
 			//3D RGB space mapping :)
-			if (colorWithinRange(G_COLOR_IN_MARGIN, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB)) {
-				var originalVMag = magnitude(image.data, i, toReplaceRGB);
-				var scalingFactor = G_COLOR_OUT_MARGIN*originalVMag/G_COLOR_IN_MARGIN;
-				image.data[i] = replacementRGB.r + (image.data[i] - toReplaceRGB.r)*scalingFactor;
-				image.data[i+1] = replacementRGB.g + (image.data[i+1] - toReplaceRGB.g)*scalingFactor;
-				image.data[i+2] = replacementRGB.b + (image.data[i+2] - toReplaceRGB.b)*scalingFactor;
+			if (colorWithinRange(in_margin, image.data[i], image.data[i+1], image.data[i+2], toReplaceRGB_par)) {
+				var originalVMag = magnitude(image.data, i, toReplaceRGB_par);
+				var scalingFactor = out_margin*originalVMag/in_margin;
+				image.data[i] = replacementRGB_par.r + (image.data[i] - toReplaceRGB_par.r)*scalingFactor;
+				image.data[i+1] = replacementRGB_par.g + (image.data[i+1] - toReplaceRGB_par.g)*scalingFactor;
+				image.data[i+2] = replacementRGB_par.b + (image.data[i+2] - toReplaceRGB_par.b)*scalingFactor;
 				
 				//put on whatever boundary it crosses, if it does
 				image.data[i] = (image.data[i] < 0) ? 0 : image.data[i];
@@ -120,19 +118,37 @@ function colorReplace(img) {
 			}
 			//i+3 is alpha channel for opacity
 		}
-
 		context.putImageData(image, 0, 0);
 		canvas.style.width = img.width+"px";
 		canvas.style.height = img.height+"px";
 
+		var randomID = Math.floor(Math.random()*100000);
 		var finalImage = document.createElement("img");
 		finalImage.src = canvas.toDataURL("image/png");
+		finalImage.id = "edited"+randomID;
 
 		img.parentNode.insertBefore(finalImage, img.nextSibling);
-		img.parentNode.removeChild(img);
+
+		jQuery.data(img, "uniqueID", randomID);
+		// var displayType = (img.style.display.length > 0) ? img.style.display.toString() : 'inline'; 
+		// jQuery.data(img, "origDisplayType", displayType);
+		img.style.display = "none";
 		console.log("image replacement success");
 	} catch (error) {
-		console.log("\"security\" error ya know");
+		console.log("\"security\" error ya know: "+error.message);
+	}
+}
+
+function replaceOriginalImages() {
+	for(var i = 0; i < originals.length; i++) {
+		var searchingID = 'edited'+jQuery.data(originals[i],'uniqueID');
+		var edited = document.getElementById(searchingID);
+		//var newDisplayType = (jQuery(originals[i],"origDisplayType")[0].toString().length > 0) ? jQuery(originals[i],"origDisplayType")[0].toString() : 'inline';
+		//UGHHHHH!!! ^^^ doesn't work but why? no respect 4 types or something :p
+
+		originals[i].parentNode.removeChild(edited);
+		// originals[i].style.display = newDisplayType;
+		originals[i].style.display = "inline";
 	}
 }
 

@@ -11,6 +11,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	  	fixPicsInDoc();
 	  } else if ("currentState" in changes) {
 	  	console.log("Check box has been changed to off, so we need to turn OFF colorscheming now");
+	  	replaceOriginalImages();
 	  }
   });
 });
