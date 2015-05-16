@@ -125,7 +125,10 @@ function colorReplace(img) {
 		canvas.style.width = img.width+"px";
 		canvas.style.height = img.height+"px";
 
-		img.parentNode.insertBefore(canvas, img.nextSibling);
+		var finalImage = document.createElement("img");
+		finalImage.src = canvas.toDataURL("image/png");
+
+		img.parentNode.insertBefore(finalImage, img.nextSibling);
 		img.parentNode.removeChild(img);
 		console.log("image replacement success");
 	} catch (error) {
